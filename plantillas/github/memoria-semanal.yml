@@ -1,4 +1,4 @@
-# Phronesis — curaduría semanal de la memoria del proyecto.
+# Phronesis v2 — curaduría semanal de la memoria del proyecto.
 #
 # Una vez por semana, ph-curador-memoria lee lo que pasó desde su última corrida y enruta cada
 # aprendizaje a un solo destino. Solo lee el repo y escribe en él: no necesita salir a internet.
@@ -16,7 +16,7 @@ env:
   ARCHIVO_LECCIONES: docs/mejora/LECCIONES.md   # AJUSTA si cambiaste la ruta en PHRONESIS.md
 
 concurrency:
-  group: phronesis-memoria
+  group: phronesis-v2-memoria
   cancel-in-progress: false
 
 permissions:
@@ -34,8 +34,8 @@ jobs:
           fetch-depth: 0   # necesita historia: lee git log desde su último commit
 
       - run: |
-          git config user.name "phronesis-memoria"
-          git config user.email "phronesis-memoria@users.noreply.github.com"
+          git config user.name "phronesis-v2-memoria"
+          git config user.email "phronesis-v2-memoria@users.noreply.github.com"
 
       - name: Curaduría
         uses: anthropics/claude-code-action@v1

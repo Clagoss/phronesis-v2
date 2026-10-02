@@ -1,7 +1,7 @@
 # PHRONESIS.md — contexto del proyecto
 
 > Copia este archivo a la **raíz de tu proyecto** como `PHRONESIS.md` y complétalo. Es la única
-> pieza específica de tu proyecto: todos los agentes de Phronesis lo leen antes de trabajar, así
+> pieza específica de tu proyecto: todos los agentes de Phronesis v2 lo leen antes de trabajar, así
 > que ellos se mantienen genéricos y tú no tienes que tocar ninguno.
 >
 > Si un campo no aplica, déjalo vacío o escribe «no aplica». Un agente que no encuentra un dato
@@ -45,7 +45,7 @@
 > hallazgo cae acá, se reporta con `Estado: bloqueado-humano` y va a un Issue con la etiqueta
 > `necesita-decision`. Esta lista es la que más vale completar bien.
 
-Por defecto Phronesis ya trata como restricción dura:
+Por defecto Phronesis v2 ya trata como restricción dura:
 
 - Migraciones de base de datos y cambios de esquema.
 - Pagos y todo lo que mueva dinero.

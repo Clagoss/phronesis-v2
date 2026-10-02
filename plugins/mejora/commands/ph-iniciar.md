@@ -1,5 +1,5 @@
 ---
-description: Prepara un proyecto para usar Phronesis — crea PHRONESIS.md a partir del repo, el backlog, las lecciones y el registro de deudas. Se corre una sola vez.
+description: Prepara un proyecto para usar Phronesis v2 — crea PHRONESIS.md a partir del repo, el backlog, las lecciones y el registro de deudas. Se corre una sola vez.
 ---
 
 # /ph-iniciar — preparar el proyecto
@@ -26,14 +26,14 @@ Deduce todo lo que puedas sin molestar al dueño:
 
 ## 3. Escribe PHRONESIS.md
 
-Parte de la plantilla de Phronesis (`plantillas/PHRONESIS.md`; si no la encuentras localmente,
+Parte de la plantilla de Phronesis v2 (`plantillas/PHRONESIS.md`; si no la encuentras localmente,
 reconstruye sus secciones) y llena lo que dedujiste. Marca con `<!-- deducido -->` lo que sacaste
 del repo, para que el dueño sepa qué revisar.
 
 **Pregunta solo lo que el repo no puede responder**, en una sola tanda corta:
 
 1. ¿Qué es el producto y para quién, en una frase?
-2. ¿Qué restricciones duras propias tiene, además de las que Phronesis trae por defecto
+2. ¿Qué restricciones duras propias tiene, además de las que Phronesis v2 trae por defecto
    (migraciones, pagos, autenticación y permisos, borrado de datos)?
 3. ¿Cuál es el flujo que más importa (el que el inspector de UX tiene que cuidar primero)?
 
@@ -53,7 +53,7 @@ En las rutas de la sección 8 (por defecto):
 Si hay `gh` disponible y el repo está en GitHub, crea la etiqueta que usan las restricciones duras:
 
 ```bash
-gh label create necesita-decision --color D93F0B --description "Un agente de Phronesis necesita una decisión humana" 2>/dev/null || true
+gh label create necesita-decision --color D93F0B --description "Un agente de Phronesis v2 necesita una decisión humana" 2>/dev/null || true
 ```
 
 ## 6. Cierre

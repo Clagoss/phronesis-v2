@@ -1,4 +1,4 @@
-# Phronesis — ciclo diario del loop de mejora continua, en la nube.
+# Phronesis v2 — ciclo diario del loop de mejora continua, en la nube.
 #
 # Copia este archivo a .github/workflows/ciclo-diario.yml de tu proyecto y ajusta lo marcado
 # con AJUSTA. Corre sin depender de tu computador: inspecciona el área del día, resuelve lo
@@ -7,8 +7,8 @@
 #
 # Requisitos:
 #   - Secret CLAUDE_CODE_OAUTH_TOKEN (sale de `claude setup-token`).
-#   - Los agentes y comandos de Phronesis copiados en .claude/ del repo (scripts/instalar.sh
-#     de Phronesis lo hace). En CI no hay marketplace de plugins: los archivos tienen que
+#   - Los agentes y comandos de Phronesis v2 copiados en .claude/ del repo (scripts/instalar.sh
+#     de Phronesis v2 lo hace). En CI no hay marketplace de plugins: los archivos tienen que
 #     estar en el repo.
 #   - PHRONESIS.md completo en la raíz.
 name: ciclo-diario
@@ -30,7 +30,7 @@ env:
   RAMA_PRODUCCION: main       # AJUSTA
 
 concurrency:
-  group: phronesis-ciclo
+  group: phronesis-v2-ciclo
   cancel-in-progress: false
 
 permissions:
@@ -51,8 +51,8 @@ jobs:
 
       - name: Poner integración al día con producción
         run: |
-          git config user.name "phronesis-ciclo"
-          git config user.email "phronesis-ciclo@users.noreply.github.com"
+          git config user.name "phronesis-v2-ciclo"
+          git config user.email "phronesis-v2-ciclo@users.noreply.github.com"
           git merge "origin/$RAMA_PRODUCCION" --no-edit || {
             echo "::error::Conflicto al traer $RAMA_PRODUCCION — resolver a mano"; exit 1; }
 

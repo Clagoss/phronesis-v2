@@ -18,7 +18,7 @@
 
 ## Lecciones activas
 
-<!-- vacío: el proyecto todavía no ha aprendido nada propio. Las reglas generales de Phronesis ya
+<!-- vacío: el proyecto todavía no ha aprendido nada propio. Las reglas generales de Phronesis v2 ya
 viven dentro de cada agente; no las copies acá. -->
 
 ## Archivo

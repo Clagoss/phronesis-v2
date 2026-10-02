@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Organigrama de Phronesis</title>
+<title>Organigrama de Phronesis v2</title>
 <style>
 :root{--tinta:#14161a;--tinta2:#4a5560;--tinta3:#7c858f;--linea:#e3e7ec;--papel:#f4f5f7;--tarjeta:#fff;--suave:#eef1f4;--acento:#0E7C86}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--tinta:#e8eaed;--tinta2:#b3bac2;--tinta3:#8a939c;--linea:#2c3138;--papel:#121417;--tarjeta:#1a1d21;--suave:#262a30;--acento:#3fb4bd}}
@@ -56,12 +56,12 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
 </head>
 <body>
 <div class="wrap">
-<h1>Organigrama de Phronesis <small>v2</small></h1>
-<p class="sub">19 agentes de Claude Code en cuatro plugins. Cada uno es la versión genérica de un agente que trabajó meses en un marketplace en producción. La barra mide <b>cuántas veces se reescribió su instrucción allá</b>: cada reescritura es un error real que ya no tienes que cometer tú.</p>
+<h1>Organigrama de Phronesis v2</h1>
+<p class="sub">19 agentes de Claude Code en cuatro plugins. Cada uno es la versión genérica de un agente que trabajó meses en <b>Avisia</b>, un marketplace de clasificados en producción en Chile. La barra mide <b>cuántas veces se reescribió su instrucción allá</b>: cada reescritura es un error real que ya no tienes que cometer tú.</p>
 
 <div class="kpis">
  <div class="kpi"><b>19</b><span>agentes · 6 comandos</span></div>
- <div class="kpi"><b>141</b><span>hallazgos de inspectores en origen</span></div>
+ <div class="kpi"><b>141</b><span>hallazgos de inspectores en Avisia</span></div>
  <div class="kpi"><b>160 / 170</b><span>items del backlog resueltos</span></div>
  <div class="kpi"><b>48</b><span>deploys registrados y verificados</span></div>
  <div class="kpi"><b>27</b><span>lecciones generalizadas</span></div>
@@ -70,7 +70,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
 
 <h2>El ciclo diario</h2>
 <div class="flujo"><svg viewBox="0 0 980 330" role="img" aria-labelledby="flujo-t flujo-d">
-<title id="flujo-t">El ciclo diario de Phronesis</title>
+<title id="flujo-t">El ciclo diario de Phronesis v2</title>
 <desc id="flujo-d">Un inspector anexa hallazgos al backlog; el resolutor los implementa en la rama de integración; el validador QA revisa y revierte lo que rompa; el dueño modera un solo PR hacia producción. Una vez por semana el curador consolida lo aprendido en las lecciones, que leen todos los agentes al arrancar.</desc>
 <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--tinta3)"/></marker></defs>
 <g class="n"><rect x="10" y="40" width="170" height="74" rx="12"/><text x="95" y="70">Inspector del día</text><text x="95" y="92" class="s">7 áreas en rotación</text></g>
@@ -95,7 +95,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Fugas de datos, permisos, funciones expuestas, superficie anti-bot</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>19 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>lunes</dd></div>
   </dl>
@@ -104,7 +104,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Metadata, indexación, sitemap coherente, 404 que no son 500</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>11 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>martes</dd></div>
   </dl>
@@ -113,7 +113,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Arquitectura, duplicación recién nacida, tipos, código muerto</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>18 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>miércoles</dd></div>
   </dl>
@@ -122,7 +122,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Fricción, estados vacío/carga/error, microcopy. No decide producto</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>18 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>jueves</dd></div>
   </dl>
@@ -131,7 +131,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">WCAG 2.1 AA: contraste del foco, teclado, estados anunciados</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>20 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>viernes</dd></div>
   </dl>
@@ -140,7 +140,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Core Web Vitals, bundle, consultas repetidas, límites del runtime</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>13 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>sábado</dd></div>
   </dl>
@@ -149,7 +149,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Lo que la gente hizo, no el código. Un hallazgo por corrida</p>
   <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>2</b></dd></div>
     <div><dt>En producción</dt><dd>42 hallazgos</dd></div>
     <div><dt>Corre</dt><dd>ventana de foco</dd></div>
   </dl>
@@ -158,7 +158,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Typecheck, build y humo real. Veto: revierte lo que rompa</p>
   <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>2</b></dd></div>
     <div><dt>En producción</dt><dd>gate de cada corrida</dd></div>
     <div><dt>Corre</dt><dd>cierre de cada ciclo</dd></div>
   </dl>
@@ -167,7 +167,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Consolida lecciones y las enruta a un solo destino. Techo de 20</p>
   <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>2</b></dd></div>
     <div><dt>En producción</dt><dd>de 28 a 16 lecciones activas</dd></div>
     <div><dt>Corre</dt><dd>domingo</dd></div>
   </dl>
@@ -176,7 +176,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Notas de test de usabilidad → items del backlog, sin inventar</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>—</dd></div>
     <div><dt>Corre</dt><dd>a pedido</dd></div>
   </dl>
@@ -189,7 +189,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Auditoría de ramas, pre-flight, veredicto y score del release</p>
   <div class="barra" title="18 revisiones de su instrucción en producción"><span style="width:100%;background:#104F78"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>18</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>18</b></dd></div>
     <div><dt>En producción</dt><dd>48 deploys registrados</dd></div>
     <div><dt>Corre</dt><dd>antes de cada deploy</dd></div>
   </dl>
@@ -198,7 +198,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Prueba que la versión correcta está viva. No cree en el verde</p>
   <div class="barra" title="18 revisiones de su instrucción en producción"><span style="width:100%;background:#104F78"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>18</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>18</b></dd></div>
     <div><dt>En producción</dt><dd>nace del mismo oficio</dd></div>
     <div><dt>Corre</dt><dd>después de cada deploy</dd></div>
   </dl>
@@ -207,7 +207,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Qué exige acción, de quién y para cuándo. Detecta filtros que esconden</p>
   <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#104F78"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>1</b></dd></div>
     <div><dt>En producción</dt><dd>36 bitácoras</dd></div>
     <div><dt>Corre</dt><dd>cada noche</dd></div>
   </dl>
@@ -216,7 +216,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">No arrancó · arrancó y no terminó · corrió sin entregar</p>
   <div class="barra" title="0 revisiones de su instrucción en producción"><span style="width:0%;background:#104F78"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>0</b> · nuevo</dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>0</b> · nuevo</dd></div>
     <div><dt>En producción</dt><dd>nuevo en v2</dd></div>
     <div><dt>Corre</dt><dd>cada día</dd></div>
   </dl>
@@ -229,7 +229,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Prospectos de fuentes públicas, dominio verificado, tope duro</p>
   <div class="barra" title="7 revisiones de su instrucción en producción"><span style="width:39%;background:#6B3FA0"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>7</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>7</b></dd></div>
     <div><dt>En producción</dt><dd>157 prospectos</dd></div>
     <div><dt>Corre</dt><dd>cada corrida</dd></div>
   </dl>
@@ -238,7 +238,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Correo humano, de igual a igual. Nunca le describe su negocio</p>
   <div class="barra" title="5 revisiones de su instrucción en producción"><span style="width:28%;background:#6B3FA0"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>5</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>5</b></dd></div>
     <div><dt>En producción</dt><dd>99 correos enviados</dd></div>
     <div><dt>Corre</dt><dd>cada corrida</dd></div>
   </dl>
@@ -247,7 +247,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Umbrales que disparan solos. Escribe en el backlog, no en el resumen</p>
   <div class="barra" title="4 revisiones de su instrucción en producción"><span style="width:22%;background:#6B3FA0"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>4</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>4</b></dd></div>
     <div><dt>En producción</dt><dd>reescrito tras 1 hallazgo en 2 meses</dd></div>
     <div><dt>Corre</dt><dd>cierre de cada corrida</dd></div>
   </dl>
@@ -260,7 +260,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Sistema visual, legibilidad, historias sin botones muertos</p>
   <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#A8442A"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>2</b></dd></div>
     <div><dt>En producción</dt><dd>10 tandas</dd></div>
     <div><dt>Corre</dt><dd>cada tanda</dd></div>
   </dl>
@@ -269,7 +269,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
   <p class="rol">Cuenta antes de opinar: rayas largas, ganchos, muletillas</p>
   <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#A8442A"></span></div>
   <dl>
-    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>Revisiones en Avisia</dt><dd><b>2</b></dd></div>
     <div><dt>En producción</dt><dd>10 tandas</dd></div>
     <div><dt>Corre</dt><dd>cada tanda</dd></div>
   </dl>
@@ -288,7 +288,7 @@ footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
 <p><b>El curador de memoria existía y nadie lo invocaba.</b> El archivo de lecciones llegó a 28 entradas, siete de las cuales decían lo mismo con distinto disfraz. Al consolidarlas, bajó a 16, y ahora el curador corre solo cada domingo.</p>
 <p><b>El estratega de outreach tenía metas escritas y dejó un hallazgo en dos meses.</b> Sus umbrales eran aspiraciones y lo que encontraba lo decía en un resumen que se borraba. Se reescribió con condiciones que disparan solas.</p>
 </div>
-<footer>Datos del proyecto de origen leídos de <code>git</code>, del backlog y del registro de despliegues el 2026-10-01. Phronesis · MIT.</footer>
+<footer>Datos de Avisia leídos de <code>git</code>, del backlog y del registro de despliegues el 2026-10-01. Phronesis v2 · MIT.</footer>
 </div>
 </body>
 </html>

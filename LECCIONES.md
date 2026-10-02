@@ -1,4 +1,4 @@
-# Lecciones — el corazón de Phronesis
+# Lecciones — el corazón de Phronesis v2
 
 > Cada una salió de un error real y costoso en un proyecto en producción, no de un manual.
 > Están **generalizadas**: se les quitó el stack y el dominio original y quedó el patrón
@@ -303,7 +303,7 @@ consultas reales del producto —las más valiosas para entenderlo— ya no exis
 
 **La regla.** Ante datos que alguna vez fueron de una persona, prefiere **bloquear o archivar** a borrar.
 El borrado automático, si existe, necesita una razón legal o de costo escrita, y el borrado de verdad lo
-hace un humano. Por eso el borrado de datos es una restricción dura por defecto en Phronesis.
+hace un humano. Por eso el borrado de datos es una restricción dura por defecto en Phronesis v2.
 
 ---
 

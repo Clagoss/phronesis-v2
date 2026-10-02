@@ -1,12 +1,12 @@
-# Phronesis
+# Phronesis v2
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-![El ciclo diario de Phronesis](docs/ciclo.png)
+![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
-> *Phronesis* (φρόνησις) es la palabra que Aristóteles usaba para la **sabiduría práctica**: saber
+> *Phronesis v2* (φρόνησις) es la palabra que Aristóteles usaba para la **sabiduría práctica**: saber
 > qué hacer en una situación concreta, algo que no se aprende de un manual sino equivocándose y
 > corrigiendo. Estos agentes son eso: el criterio que dejaron meses de errores reales, escrito para
 > que otro proyecto no tenga que pagarlos de nuevo.
@@ -17,7 +17,7 @@ todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido 
 
 - [De dónde viene](#de-dónde-viene)
 - [Cómo funciona](#cómo-funciona)
-- [Los agentes](#los-agentes) · [organigrama completo](docs/organigrama.html)
+- [Los agentes](#los-agentes) · [cómo se mueve el equipo](organigrama/)
 - [Los comandos](#los-comandos)
 - [Instalación paso a paso](#instalación-paso-a-paso)
 - [El día a día](#el-día-a-día)
@@ -31,9 +31,11 @@ todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido 
 
 ## De dónde viene
 
-Phronesis no se diseñó en una pizarra. Es la versión genérica de los agentes que operaron durante
-meses un marketplace de clasificados en producción, con usuarios reales, pagos reales y despliegues
-diarios. En ese proyecto:
+Phronesis v2 no se diseñó en una pizarra. Nació operando **[Avisia](https://avisia.cl)**, un
+marketplace de avisos clasificados en Chile, con usuarios reales, pagos reales y despliegues diarios.
+Durante meses, estos agentes inspeccionaron, arreglaron y desplegaron Avisia todos los días, y cada
+error que cometieron quedó escrito en sus instrucciones. Avisia es el banco de pruebas de Phronesis:
+cada regla de este repo se pagó ahí primero. En Avisia:
 
 | | |
 |---|---|
@@ -44,11 +46,12 @@ diarios. En ese proyecto:
 | Reescrituras de la instrucción del agente de deploy | **18** |
 
 Ese último número importa: un agente no aprende solo, lo único que persiste es su archivo de
-instrucciones. **Cada reescritura es un error real que quedó escrito.** Al pasar a Phronesis se
-quitaron el stack, las rutas y el dominio del proyecto original, y quedó el criterio.
+instrucciones. **Cada reescritura es un error real que quedó escrito.** Al pasar a Phronesis v2 se
+quitaron el stack, las rutas y el dominio de Avisia, y quedó el criterio: funciona en cualquier
+proyecto que tenga código, un repo y alguien que decida.
 
-[Ver el organigrama con la historia de cada agente →](docs/organigrama.html)
-([captura](docs/organigrama.png))
+**[Cómo se mueve el equipo de agentes →](organigrama/)** — quién le pasa trabajo a quién, qué
+valor da cada uno y cómo se configura. Incluye el organigrama con la historia de cada agente en Avisia.
 
 ---
 
@@ -171,25 +174,25 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 Dentro de Claude Code:
 
 ```
-/plugin marketplace add Clagoss/phronesis
-/plugin install mejora@phronesis
+/plugin marketplace add Clagoss/phronesis-v2
+/plugin install mejora@phronesis-v2
 ```
 
 Y los opcionales que te sirvan:
 
 ```
-/plugin install ops@phronesis
-/plugin install growth@phronesis
-/plugin install contenido@phronesis
+/plugin install ops@phronesis-v2
+/plugin install growth@phronesis-v2
+/plugin install contenido@phronesis-v2
 ```
 
 > **¿Vas a correr el loop en GitHub Actions?** Allá no hay marketplace de plugins: los agentes tienen
-> que estar dentro de tu repo. Clona Phronesis y cópialos con el instalador (no sobrescribe nada que
+> que estar dentro de tu repo. Clona Phronesis v2 y cópialos con el instalador (no sobrescribe nada que
 > ya exista):
 >
 > ```bash
-> git clone https://github.com/Clagoss/phronesis.git
-> ./phronesis/scripts/instalar.sh /ruta/a/tu-proyecto mejora ops
+> git clone https://github.com/Clagoss/phronesis-v2.git
+> ./phronesis-v2/scripts/instalar.sh /ruta/a/tu-proyecto mejora ops
 > ```
 
 ### 2. Prepara tu proyecto
@@ -253,7 +256,7 @@ Así el loop corre aunque tu computador esté apagado.
 2. Copia la plantilla del workflow:
 
    ```bash
-   mkdir -p .github/workflows && cp /ruta/a/phronesis/plantillas/github/ciclo-diario.yml .github/workflows/
+   mkdir -p .github/workflows && cp /ruta/a/phronesis-v2/plantillas/github/ciclo-diario.yml .github/workflows/
    ```
 
 3. Abre el archivo y ajusta lo marcado con `AJUSTA`: los nombres de tus ramas, la hora (en UTC) y
@@ -302,7 +305,7 @@ Una vez instalado, tu trabajo se reduce a cuatro cosas:
 
 ## Cómo mejora con el tiempo
 
-Phronesis aprende en tres niveles:
+Phronesis v2 aprende en tres niveles:
 
 1. **Lecciones del proyecto** — `docs/mejora/LECCIONES.md` en tu repo. Las escriben los agentes cuando
    ven un patrón y las cura `ph-curador-memoria` cada semana. Las leen todos al arrancar.
@@ -312,7 +315,7 @@ Phronesis aprende en tres niveles:
    archivo. Por eso conviene versionar los agentes en tu repo (con `scripts/instalar.sh`): sus
    reescrituras son tu aprendizaje.
 
-[LECCIONES.md](LECCIONES.md) es el tercer nivel aplicado a Phronesis mismo: 27 patrones con el error
+[LECCIONES.md](LECCIONES.md) es el tercer nivel aplicado a Phronesis v2 mismo: 27 patrones con el error
 que los originó, la regla y cómo detectarlo. Si tu proyecto descubre uno que vale para cualquiera,
 abre un PR.
 
@@ -352,7 +355,7 @@ abre un PR.
 ## Estructura del repo
 
 ```
-phronesis/
+phronesis-v2/
 ├── .claude-plugin/marketplace.json   el marketplace: declara los 4 plugins
 ├── plugins/
 │   ├── mejora/      7 inspectores, validador, curador, sintetizador + 6 comandos
@@ -365,7 +368,7 @@ phronesis/
 │   ├── rutinas.json · correo.json
 │   └── github/               ciclo-diario.yml · memoria-semanal.yml
 ├── scripts/instalar.sh       copia agentes y comandos a .claude/ de tu proyecto
-├── docs/organigrama.html     el organigrama, con la historia de cada agente
+├── organigrama/              cómo se mueve el equipo, el valor de cada agente y el organigrama
 └── LECCIONES.md              27 patrones aprendidos en producción
 ```
 

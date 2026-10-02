@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Copia los agentes y comandos de Phronesis a la carpeta .claude/ de un proyecto.
+# Copia los agentes y comandos de Phronesis v2 a la carpeta .claude/ de un proyecto.
 #
 # Úsalo cuando quieras correr el loop en GitHub Actions (allá no hay marketplace de plugins: los
 # archivos tienen que estar en el repo) o cuando prefieras versionar los agentes junto a tu código.
-# Si solo vas a usar Phronesis desde tu computador, instalar el plugin basta (ver README).
+# Si solo vas a usar Phronesis v2 desde tu computador, instalar el plugin basta (ver README).
 #
 #   ./scripts/instalar.sh /ruta/a/tu-proyecto                 # todos los plugins
 #   ./scripts/instalar.sh /ruta/a/tu-proyecto mejora ops      # solo algunos
