@@ -96,11 +96,22 @@ for (const bloque of (git("worktree", "list", "--porcelain") ?? "").split("\n\n"
   const rama = bloque.match(/^branch refs\/heads\/(.+)$/m)?.[1] ?? null;
   const detached = /^detached$/m.test(bloque);
   if (!dir) continue;
-  const st = lineas(gitIn(dir, "status", "--porcelain"));
-  const sinPushear = rama ? Number(gitIn(dir, "rev-list", "--count", "@{u}..HEAD") ?? 0) : 0;
-  const w = { ruta: dir, rama, detached, sueltos: st.length, sinPushear, archivos: st.map((l) => l.slice(3)) };
-  worktrees.push(w);
   const nombre = dir.replace(/^.*\//, "");
+  // Una carpeta movida o borrada a mano deja el worktree registrado en una ruta que ya no existe:
+  // `git status` ahí no devuelve nada y se leería como "0 sueltos", con todo en orden.
+  if (/^prunable/m.test(bloque) || !existsSync(dir)) {
+    worktrees.push({ ruta: dir, rama, detached, perdido: true, sueltos: 0, sinPushear: 0, archivos: [] });
+    frena("worktrees", `${nombre} [${rama ?? "detached"}] no está en disco`,
+      "git lo tiene registrado en una ruta que ya no existe: lo que tenga sin commitear no se ve. Ubica la carpeta y corre `git worktree repair <ruta nueva>`, o `git worktree prune` si se descartó");
+    continue;
+  }
+  // `sh` recorta la salida: la primera línea pierde su espacio inicial (" M x" → "M x"), así que
+  // cortar tres caracteres fijos se come la primera letra del archivo. Se corta el código de estado.
+  const st = lineas(gitIn(dir, "status", "--porcelain"));
+  const archivo = (l) => l.replace(/^\s*\S{1,2}\s+/, "");
+  const sinPushear = rama ? Number(gitIn(dir, "rev-list", "--count", "@{u}..HEAD") ?? 0) : 0;
+  const w = { ruta: dir, rama, detached, sueltos: st.length, sinPushear, archivos: st.map(archivo) };
+  worktrees.push(w);
   if (st.length) frena("worktrees", `${nombre} [${rama ?? "detached"}]: ${st.length} archivo(s) sin commitear`, w.archivos.slice(0, 4).join(", "));
   if (sinPushear) frena("worktrees", `${nombre} [${rama}]: ${sinPushear} commit(s) sin pushear`);
   if (detached) frena("worktrees", `${nombre} está en HEAD separado`, "un worktree sin rama no tiene adónde empujar su trabajo");
@@ -300,7 +311,7 @@ console.log(`\nINVENTARIO DE DEPLOY — ${veredicto}${nFrena ? ` (${nFrena} cosa
 console.log(`Lote        ${commits.length} commits · ${codigo.length} archivos de código · ${migraciones.length} migración(es) · riesgo ${riesgo.toUpperCase()}`);
 if (leadTimeHoras !== null) console.log(`Antigüedad  el commit más viejo del lote tiene ${leadTimeHoras < 48 ? leadTimeHoras + " h" : Math.round(leadTimeHoras / 24) + " días"}`);
 console.log(`Ramas       ${faltan.length ? `falta ${faltan.map((r) => `origin/${r}`).join(", ")}` : `${PROD}...${INTEG} = ${soloProd} ${soloInteg} · ${INTEG} contiene ${PROD}: ${integContieneProd ? "sí" : "no"}`}`);
-console.log(`Worktrees   ${worktrees.map((w) => `${w.ruta.replace(/^.*\//, "")}[${w.rama ?? "detached"}] ${w.sueltos} sueltos`).join(" · ")}`);
+console.log(`Worktrees   ${worktrees.map((w) => `${w.ruta.replace(/^.*\//, "")}[${w.rama ?? "detached"}] ${w.perdido ? "NO ESTÁ EN DISCO" : `${w.sueltos} sueltos`}`).join(" · ")}`);
 console.log(`Retorno     vivo ${retorno.shaVivo ?? "?"} · despliegue ${retorno.idDespliegue ?? "?"}`);
 if (revisionProtocolo && !revisionProtocolo.toca) console.log(`Protocolo   v${revisionProtocolo.version} · revisión en ${revisionProtocolo.faltan} deploy(s) o el ${revisionProtocolo.revisarEl}`);
 if (Object.keys(tocadas).length) {
