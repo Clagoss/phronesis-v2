@@ -120,8 +120,8 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 
 | Agente | Qué hace | Cuándo corre |
 |---|---|---|
-| `ph-gestor-deploy` | Audita ramas y worktrees, corre el pre-flight (y lo repite contra el commit exacto), decide `DESPLEGAR` / `ESPERAR` / `BLOQUEADO`, puntúa el release por superficie de usuario y lleva el registro. | antes de cada deploy |
-| `ph-verificador-deploy` | Prueba que la versión correcta está viva comparando el commit servido, distingue tu falla de la del proveedor y verifica en vivo un cambio concreto del release. No cree en el verde del CI. | después de cada deploy |
+| `ph-gestor-deploy` | Ejecuta el **protocolo de deploy en 12 fases**: un inventario que falla si algo queda fuera del merge, pre-flight, riesgo y punto de retorno fijados antes, revisión de casos hermanos, verificación visual, una **puerta que espera tu «mergea»**, verificación en producción, observación, registro y nota de release. | cada deploy, con `/ph-deploy` |
+| `ph-verificador-deploy` | El subagente de la fase de verificación: prueba que la versión correcta está viva comparando el commit servido, distingue tu falla de la del proveedor y verifica en vivo un cambio concreto. No cree en el verde del CI. | fase F8 de cada deploy |
 | `ph-triage-correo` | Dice qué correo exige acción, de quién y para cuándo; calcula plazos legales; detecta lo que debió llegar y no llegó, y los filtros que esconden correos. Solo lectura. | cada noche |
 | `ph-vigilante-rutinas` | Distingue «no arrancó», «arrancó y no terminó» y «corrió sin entregar nada». Vigila el entregable, no solo el latido. | cada día |
 
@@ -152,6 +152,7 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 | `/ph-resolver [tope]` | Solo la resolución, con el validador al final. |
 | `/ph-memoria` | La curaduría semanal de lecciones. |
 | `/ph-usabilidad <notas>` | De notas de un test con usuarios a items del backlog. |
+| `/ph-deploy [estado\|mergea\|todo]` | *(plugin `ops`)* El protocolo de deploy. Sin argumentos llega hasta la puerta y espera tu «mergea»; `estado` solo muestra el inventario. |
 
 ---
 
@@ -276,9 +277,14 @@ Corre los domingos, que es el día que el ciclo descansa: así nadie más escrib
 
 ### 7. Opcional: los demás plugins
 
-- **`ops` — despliegues.** Expón el commit del build en un endpoint de salud (por ejemplo
-  `/api/health` devolviendo `{"commit": "abc1234"}`). Es barato y convierte la verificación de
-  despliegue en una prueba en vez de una suposición. Llena la sección *Operación* de `PHRONESIS.md`.
+- **`ops` — despliegues.** El instalador deja en tu proyecto el script de inventario
+  (`scripts/ops/inventario-deploy.mjs`) y tres archivos en `docs/ops/`: `deploy.json` (ramas, URL de
+  salud, **rutas sensibles por nivel de riesgo**), `fuera-del-lote.json` (lo que dejas fuera a
+  propósito, con motivo) y `protocolo-revision.json` (cuándo revisar el protocolo). Ajusta
+  `deploy.json`, llena la §7 de `PHRONESIS.md` y expón el commit del build en un endpoint de salud
+  (por ejemplo `/api/health` devolviendo `{"commit": "abc1234"}`): convierte la verificación en una
+  prueba en vez de una suposición. Después corre `/ph-deploy estado` para ver el inventario sin tocar
+  nada.
 - **`ops` — correo.** Necesitas un conector de correo en Claude Code (por ejemplo el de Gmail).
   Copia [`plantillas/correo.json`](plantillas/correo.json) a `docs/ops/correo/<proyecto>.json` y
   ajusta casillas, categorías y plazos. Prográmalo como tarea diaria.
@@ -359,13 +365,15 @@ phronesis-v2/
 ├── .claude-plugin/marketplace.json   el marketplace: declara los 4 plugins
 ├── plugins/
 │   ├── mejora/      7 inspectores, validador, curador, sintetizador + 6 comandos
-│   ├── ops/         gestor y verificador de deploy, triage de correo, vigilante de rutinas
+│   ├── ops/         gestor y verificador de deploy, triage de correo, vigilante de rutinas + /ph-deploy
 │   ├── growth/      prospector, copywriter, estratega
 │   └── contenido/   director de arte, jefe de copy
 ├── plantillas/
 │   ├── PHRONESIS.md          el único archivo que adaptas a tu proyecto
 │   ├── BACKLOG.md · LECCIONES.md · DEUDAS.md
 │   ├── rutinas.json · correo.json
+│   ├── deploy.json · fuera-del-lote.json · protocolo-revision.json
+│   ├── scripts/              inventario-deploy.mjs (F1 del protocolo de deploy)
 │   └── github/               ciclo-diario.yml · memoria-semanal.yml
 ├── scripts/instalar.sh       copia agentes y comandos a .claude/ de tu proyecto
 ├── organigrama/              cómo se mueve el equipo, el valor de cada agente y el organigrama
@@ -384,7 +392,9 @@ phronesis-v2/
   respetar las restricciones duras.
 - **El estratega de outreach** pasó de pedir «1 a 3 oportunidades por día» a umbrales que disparan
   solos, después de que la versión anterior dejara un hallazgo en dos meses.
-- **El deploy se partió en dos**: el gestor antes, el verificador después.
+- **Protocolo de deploy en 12 fases** (F0–F11), con un inventario que falla si algo queda fuera del
+  merge, el riesgo del lote calculado por rutas sensibles, una puerta que espera tu «mergea» y una
+  nota de release al final. Viene del deploy management de Avisia, deploys #18 a #48.
 - **Plantillas de GitHub Actions** para correr todo en la nube.
 - **12 lecciones nuevas** en [LECCIONES.md](LECCIONES.md).
 

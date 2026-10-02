@@ -17,7 +17,7 @@
     {
       "name": "ops",
       "source": "./plugins/ops",
-      "description": "Operación: gestor y verificador de despliegues, triage de correo y vigilante de rutinas programadas."
+      "description": "Operación: el protocolo de deploy en 12 fases (/ph-deploy, con inventario que falla si algo queda fuera), verificador de despliegues, triage de correo y vigilante de rutinas."
     },
     {
       "name": "growth",

@@ -1,0 +1,15 @@
+{
+  "_que_es": "Cuándo toca revisar el protocolo de deploy. Lo lee el inventario en cada corrida y avisa cuando se cumple la primera de las dos condiciones. Existe para que la revisión no dependa de que alguien se acuerde: una fecha escrita en prosa envejece en silencio.",
+  "version": 1,
+  "aprobada_el": "AAAA-MM-DD",
+  "ultimo_deploy_al_aprobar": 0,
+  "revisar_tras_deploys": 5,
+  "revisar_el": "AAAA-MM-DD",
+  "que_revisar": [
+    "¿El inventario frenó algo que no debía, o dejó pasar algo que sí? Cada falso positivo y cada falso negativo, con el deploy en que ocurrió.",
+    "¿La clasificación de riesgo acertó? Lotes marcados ALTO que no lo eran, o al revés.",
+    "¿La observación de F9 encontró algo alguna vez, o es ceremonia?",
+    "¿La nota de release se lee entera, o sobra la mitad?",
+    "¿Cuánto dura una corrida completa, y qué fase se come el tiempo?"
+  ]
+}

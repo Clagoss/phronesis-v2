@@ -1,0 +1,14 @@
+{
+  "_que_es": "Lo que queda FUERA del próximo deploy a propósito, con su motivo. Lo lee el inventario de deploy (F1). Una rama con commits propios o un PR abierto que NO esté acá hace que el inventario diga INCOMPLETO y el merge no se haga: 'fuera del lote' es siempre una decisión escrita, nunca algo que se olvidó.",
+  "_como_se_usa": "Agrega una entrada cuando decidas dejar algo fuera. Retírala cuando entre al lote o se descarte. 'desde' y 'revisar' existen para que nada quede declarado fuera para siempre sin que nadie lo vuelva a mirar.",
+  "ramas": [
+    {
+      "nombre": "ejemplo/rama-experimental",
+      "motivo": "Experimento que espera una decisión de producto. No entra hasta que el dueño la tome.",
+      "desde": "AAAA-MM-DD",
+      "revisar": "en el próximo deploy",
+      "estado": "esperando-decision"
+    }
+  ],
+  "prs": []
+}

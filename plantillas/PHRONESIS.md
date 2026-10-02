@@ -69,10 +69,24 @@ Agrega las propias de tu proyecto (temas legales, categorías sensibles, datos d
 
 ## 7. Ramas y despliegue
 
+> Lo lee `ph-gestor-deploy` en cada fase del protocolo. La parte mecánica (rutas sensibles, patrones,
+> workflows) va en `docs/ops/deploy.json`, que lee el script de inventario: ver `plantillas/deploy.json`.
+
 - **Rama de integración** (donde trabaja el loop): ej. `staging`
 - **Rama de producción:** ej. `main`
 - **Cómo se despliega a producción:** (merge del PR, workflow, manual)
 - **URL del ambiente de integración, si existe:**
+- **Endpoint que reporta la versión viva:** ej. `GET /api/health` → `{ "commit": "abc1234" }`
+- **Cómo leer el identificador del último despliegue** (para volver exactamente a él):
+- **Comando de vuelta atrás (rollback):**
+- **Registro de deploys:** ej. `docs/ops/DEPLOY-LOG.md`
+- **¿Integración y producción comparten la base de datos?** sí / no
+- **Dónde se declaran las migraciones que van después del merge:**
+- **¿El sitio bloquea IPs de datacenter?** sí / no (si sí, el humo de producción corre desde una máquina normal)
+- **Cómo avisar a las demás sesiones de un deploy:** (ej. un marcador versionado que leen al arrancar)
+- **Configuración del inventario:** `docs/ops/deploy.json`
+- **Registro de exclusiones del lote:** `docs/ops/fuera-del-lote.json`
+- **Revisión del protocolo:** `docs/ops/protocolo-revision.json`
 
 ## 8. Archivos del loop de mejora
 
@@ -137,8 +151,7 @@ Agrega las propias de tu proyecto (temas legales, categorías sensibles, datos d
 
 ## 13. Operación (opcional — solo si usas el plugin `ops`)
 
-- **Registro de despliegues:** ej. `docs/ops/DEPLOY-LOG.md`
-- **Cómo se ve qué versión está viva:** (ej. un endpoint de salud que expone el commit)
-- **Cómo se hace rollback:**
+> Lo del deploy está en la §7. Acá van las rutinas y el correo.
+
 - **Inventario de rutinas:** ej. `docs/ops/rutinas.json` (ver `plantillas/rutinas.json`)
 - **Configuración de correo:** ej. `docs/ops/correo/<proyecto>.json` (ver `plantillas/correo.json`)

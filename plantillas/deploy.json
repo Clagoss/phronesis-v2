@@ -1,0 +1,34 @@
+{
+  "_que_es": "Configuración del inventario de deploy (scripts/ops/inventario-deploy.mjs) y de las fases del protocolo que dependen del proyecto. Va en docs/ops/deploy.json. Lo que dejes en null se reporta como 'no consultado'; nunca se da por bueno en silencio.",
+  "rama_produccion": "main",
+  "rama_integracion": "staging",
+  "url_salud": "https://tu-dominio.cl/api/health",
+  "campo_commit": "commit",
+  "rutas_codigo": ["src/", "app/", "packages/"],
+  "patron_migraciones": "^(db|supabase|prisma)/migrations/.+",
+  "workflow_integracion": "deploy-staging.yml",
+  "workflow_produccion": "deploy-prod.yml",
+  "ignorar_en_integracion": ["docs/**", "*.md", "**/*.md"],
+  "patron_id_despliegue": null,
+  "registro_exclusiones": "docs/ops/fuera-del-lote.json",
+  "registro_deudas": "docs/DEUDAS.md",
+  "revision_protocolo": "docs/ops/protocolo-revision.json",
+  "marcador_ultimo_deploy": "docs/ops/ultimo-deploy.json",
+  "proyectos_ajenos": [],
+  "rutas_sensibles": [
+    { "nivel": "alto", "area": "migraciones", "patron": "/migrations/" },
+    { "nivel": "alto", "area": "pagos", "patron": "(/pagos?/|payment|checkout|billing|suscripcion)", "flags": "i" },
+    { "nivel": "alto", "area": "auth y sesión", "patron": "(/auth/|middleware\\.(ts|js)$|/login|/registro)" },
+    { "nivel": "alto", "area": "permisos y datos personales", "patron": "(grants?|rls|policy|permissions?)", "flags": "i" },
+    { "nivel": "alto", "area": "infraestructura", "patron": "(wrangler\\.(toml|jsonc?)$|vercel\\.json$|netlify\\.toml$|Dockerfile$|next\\.config\\.(m?js|ts)$)" },
+    { "nivel": "medio", "area": "dependencias", "patron": "(^|/)(package\\.json|pnpm-lock\\.yaml|package-lock\\.json|yarn\\.lock)$" },
+    { "nivel": "medio", "area": "workflows", "patron": "^\\.github/workflows/" },
+    { "nivel": "medio", "area": "acciones de servidor", "patron": "(actions|server)\\.(ts|js)$" },
+    { "nivel": "bajo", "area": "interfaz", "patron": "(components|app|pages)/" }
+  ],
+  "_notas": {
+    "patron_id_despliegue": "Expresión regular con un grupo que capture el identificador del despliegue en el log del workflow de producción, para poder volver exactamente a esa versión. Ejemplo para Cloudflare Workers: \"Current Version ID:\\\\s*([0-9a-f-]{36})\".",
+    "rutas_sensibles": "La primera regla que calza gana: ordénalas de más a menos riesgo. Las de nivel alto deberían coincidir con las restricciones duras de PHRONESIS.md.",
+    "proyectos_ajenos": "Patrones de ruta de otros proyectos que trabajas en paralelo y que jamás deben entrar a este merge."
+  }
+}

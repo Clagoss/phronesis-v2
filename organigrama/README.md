@@ -35,7 +35,7 @@ La forma más fácil de entender Phronesis v2 es pensarlo como un equipo de prod
 | El desarrollador | `/ph-resolver` | Implementa lo que el backlog pide, un cambio pequeño por vez. |
 | QA | `ph-validador-qa` | Comprueba que nada se rompió. Tiene veto: revierte lo que falle. |
 | El que escribe los post-mortems | `ph-curador-memoria` | Cada semana convierte lo que salió mal en reglas para que no vuelva a pasar. |
-| El encargado de releases | `ph-gestor-deploy` + `ph-verificador-deploy` | Antes del deploy decide si es el momento; después prueba que salió bien. |
+| El encargado de releases | `ph-gestor-deploy` + `ph-verificador-deploy` | Corre el protocolo de deploy: inventario, riesgo, la puerta donde tú decides, y la prueba de que salió bien. |
 | La secretaria y el de guardia | `ph-triage-correo` + `ph-vigilante-rutinas` | Te dicen qué correo exige acción y qué automatización dejó de funcionar. |
 | El equipo comercial | prospector, copywriter, estratega | Buscan clientes, les escriben y miden qué funciona. |
 | El equipo de marca | director de arte, jefe de copy | Nada se publica en redes sin pasar por ellos. |
@@ -150,14 +150,29 @@ flowchart LR
 
 ### Un despliegue
 
+El protocolo de deploy tiene doce fases. `/ph-deploy` corre las siete primeras y se detiene en la
+puerta; tu «mergea» dispara el resto.
+
 ```mermaid
 flowchart LR
-    G["gestor de deploy<br/>auditoría de ramas<br/>pre-flight<br/>score"] -->|DESPLEGAR / ESPERAR / BLOQUEADO| TU(["tú mergeas"])
-    TU --> P["producción"]
-    P --> V["verificador de deploy<br/>¿la versión correcta está viva?<br/>¿se ve el cambio?"]
-    V --> LOG["registro de despliegues"]
-    LOG --> C["curador de memoria<br/>(el domingo)"]
+    subgraph ANTES["/ph-deploy · F0–F5"]
+        F0["F0 arranque<br/>nada corriendo a medias"] --> F1["F1 inventario<br/>COMPLETO o INCOMPLETO"]
+        F1 --> F2["F2 pre-flight"] --> F3["F3 riesgo y<br/>punto de retorno"]
+        F3 --> F4["F4 revisión<br/>casos hermanos"] --> F5["F5 verificación<br/>visual"]
+    end
+    F5 --> F6{{"F6 la puerta<br/>manifiesto del lote"}}
+    F6 -->|"tú: «mergea»"| F7
+    subgraph DESPUES["F7–F11"]
+        F7["F7 merge"] --> F8["F8 verificación en prod<br/>(ph-verificador-deploy)"]
+        F8 --> F9["F9 observación<br/>~10 min después"] --> F10["F10 registro"] --> F11["F11 nota de release"]
+    end
+    F10 --> C["curador de memoria<br/>(el domingo)"]
 ```
+
+Lo que hace distinto a este protocolo es la **F1**: un script que barre todos los worktrees, stashes,
+commits sin remoto, ramas y PRs abiertos, y devuelve COMPLETO o INCOMPLETO. Lo que queda fuera del
+merge tiene que estar declarado con su motivo en `fuera-del-lote.json`; si no, el merge no se hace.
+Convierte «que no quede nada fuera» de algo que uno recuerda en un chequeo que falla.
 
 ### Outreach y contenido
 
@@ -273,10 +288,13 @@ Phronesis v2) y qué tan importante es.
 - **Sin él:** trabajo terminado que lleva días sin llegar a ninguna rama, migraciones que salen antes
   que el código, un registro que no coincide con lo que está vivo.
 - **En Avisia:** el agente que más aprendió: su instrucción se reescribió 18 veces, más que los siete
-  inspectores juntos. Lleva 48 despliegues registrados.
+  inspectores juntos, y de esas lecciones salió el protocolo de 12 fases. Lleva 48 despliegues
+  registrados. Su inventario existe porque un lote de trabajo terminado quedó fuera del repo y dejó
+  mudo el feed de Instagram cuatro días.
 
 #### `ph-verificador-deploy` ⭐⭐⭐ (si despliegas seguido)
-- **Valor:** prueba que tu código está vivo. No cree en el verde del CI.
+- **Valor:** la fase F8 del protocolo, en detalle: prueba que tu código está vivo. No cree en el verde
+  del CI.
 - **Sin él:** te enteras horas después de que producción sigue sirviendo la versión anterior.
 - **En Avisia:** un incidente del proveedor de CI mató un deploy justo después de aprobarlo.
   Producción siguió con el código viejo durante horas; el sitio respondía perfecto.
@@ -356,8 +374,8 @@ hace falta. Si una sección está vacía, el agente **se abstiene**: no inventa.
 | `ph-validador-qa` | 6 · Validación, 7 · Ramas | los comandos de typecheck, build y humo funcionando | al final de cada resolución |
 | `ph-curador-memoria` | 8 · Archivos del loop | historia de git (`fetch-depth: 0` en CI) | domingo, `memoria-semanal.yml` |
 | `ph-sintetizador-usabilidad` | 1, 4, 8 | un archivo de notas | a pedido, `/ph-usabilidad` |
-| `ph-gestor-deploy` | 6, 7, 13 · Operación | un registro de despliegues | antes de cada deploy, a pedido |
-| `ph-verificador-deploy` | 7, 13 | **un endpoint de salud que exponga el commit** | después de cada deploy |
+| `ph-gestor-deploy` | 5, 6, 7 · Ramas y despliegue | `docs/ops/deploy.json`, `fuera-del-lote.json`, `protocolo-revision.json` y el script de inventario (el instalador los deja) | cada deploy, con `/ph-deploy` |
+| `ph-verificador-deploy` | 7 | **un endpoint de salud que exponga el commit** | fase F8, lo invoca el gestor |
 | `ph-triage-correo` | 13 | un conector de correo en Claude Code y `correo.json` | cada noche, tarea programada |
 | `ph-vigilante-rutinas` | 13 | `rutinas.json` con el entregable de cada rutina | cada día |
 | `ph-prospector` | 11 · Outreach | la lista maestra y un verificador de casillas | cada corrida de outreach |

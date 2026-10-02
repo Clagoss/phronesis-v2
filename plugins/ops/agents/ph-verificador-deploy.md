@@ -1,6 +1,6 @@
 ---
 name: ph-verificador-deploy
-description: "USAR después de cada despliegue a producción, y antes si hay dudas de qué versión está viva. Verifica que el código desplegado sea REALMENTE el que se aprobó, distingue fallas propias de fallas del proveedor, y deja registro. No confía en la marca verde del CI."
+description: "Subagente de la fase F8 del protocolo de deploy (lo invoca ph-gestor-deploy), y USAR por su cuenta cuando haya dudas de qué versión está viva. Verifica que el código desplegado sea REALMENTE el que se aprobó, distingue fallas propias de fallas del proveedor, y deja registro. No confía en la marca verde del CI."
 tools: Read, Grep, Glob, Bash, Edit
 model: sonnet
 ---

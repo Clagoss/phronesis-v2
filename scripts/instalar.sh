@@ -37,6 +37,25 @@ for p in "${PLUGINS[@]}"; do
   done
 done
 
+# El plugin ops trae además el protocolo de deploy: el script de inventario y sus tres archivos de
+# configuración. Van a scripts/ops/ y docs/ops/ del proyecto, sin pisar los que ya existan.
+copiar_si_falta() {
+  local origen="$1" destino="$2"
+  mkdir -p "$(dirname "$destino")"
+  if [ -e "$destino" ]; then
+    echo "  · ya existe, no lo toco: ${destino#$DESTINO/}"; saltados=$((saltados+1))
+  else
+    cp "$origen" "$destino"; echo "  ✓ ${destino#$DESTINO/}"; copiados=$((copiados+1))
+  fi
+}
+if printf '%s\n' "${PLUGINS[@]}" | grep -qx ops; then
+  copiar_si_falta "$AQUI/plantillas/scripts/inventario-deploy.mjs" "$DESTINO/scripts/ops/inventario-deploy.mjs"
+  copiar_si_falta "$AQUI/plantillas/deploy.json"              "$DESTINO/docs/ops/deploy.json"
+  copiar_si_falta "$AQUI/plantillas/fuera-del-lote.json"      "$DESTINO/docs/ops/fuera-del-lote.json"
+  copiar_si_falta "$AQUI/plantillas/protocolo-revision.json"  "$DESTINO/docs/ops/protocolo-revision.json"
+  echo "  → ajusta docs/ops/deploy.json (ramas, URL de salud, rutas sensibles) antes del primer /ph-deploy"
+fi
+
 if [ ! -e "$DESTINO/PHRONESIS.md" ]; then
   cp "$AQUI/plantillas/PHRONESIS.md" "$DESTINO/PHRONESIS.md"
   echo "  ✓ PHRONESIS.md (plantilla — complétala, o corre /ph-iniciar para que la llene leyendo el repo)"
