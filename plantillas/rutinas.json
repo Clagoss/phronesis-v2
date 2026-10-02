@@ -1,0 +1,34 @@
+{
+  "_comentario": "Inventario de rutinas que vigila ph-vigilante-rutinas. 'cada_horas' es la frecuencia esperada; el umbral de alarma es esa frecuencia más 'margen_horas'. 'entregable' es lo que la rutina tiene que dejar si funcionó: vigila eso, no solo el latido.",
+  "rutinas": [
+    {
+      "nombre": "ciclo-diario",
+      "donde": "GitHub Actions (.github/workflows/ciclo-diario.yml)",
+      "cada_horas": 24,
+      "margen_horas": 16,
+      "dias": "lun-sab",
+      "latido": "gh run list --workflow=ciclo-diario.yml --limit 1",
+      "entregable": "commit nuevo en la rama de integración o comentario nuevo en el PR",
+      "estado": "activa"
+    },
+    {
+      "nombre": "memoria-semanal",
+      "donde": "GitHub Actions (.github/workflows/memoria-semanal.yml)",
+      "cada_horas": 168,
+      "margen_horas": 24,
+      "latido": "gh run list --workflow=memoria-semanal.yml --limit 1",
+      "entregable": "commit 'memoria:' o la frase 'sin nada que aprender' en el log del run",
+      "estado": "activa"
+    },
+    {
+      "nombre": "correo-diario",
+      "donde": "tarea programada local",
+      "cada_horas": 24,
+      "margen_horas": 16,
+      "latido": "docs/ops/latidos/correo-diario.json",
+      "entregable": "docs/ops/correo/bitacora/AAAA-MM-DD.md",
+      "estado": "pausada",
+      "motivo_pausa": "ejemplo: una rutina pausada a propósito no debe sonar como caída"
+    }
+  ]
+}

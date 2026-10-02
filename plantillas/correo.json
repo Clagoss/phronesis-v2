@@ -1,0 +1,38 @@
+{
+  "_comentario": "Configuración que lee ph-triage-correo. Todo lo específico del proyecto vive acá, nunca en el agente.",
+  "proyecto": "mi-proyecto",
+  "casillas_propias": ["contacto@mi-dominio.cl", "privacidad@mi-dominio.cl"],
+  "busqueda_base": "in:anywhere newer_than:2d",
+  "plazo_legal_dias": 30,
+  "categorias": [
+    {
+      "nombre": "personas-reales",
+      "busqueda": "to:contacto@mi-dominio.cl -from:me",
+      "urgencia": "alta",
+      "piso_urgencia": "alta"
+    },
+    {
+      "nombre": "privacidad",
+      "busqueda": "to:privacidad@mi-dominio.cl",
+      "urgencia": "crítica",
+      "piso_urgencia": "crítica",
+      "nota": "toda solicitud de datos personales lleva fecha límite = recepción + plazo_legal_dias"
+    },
+    {
+      "nombre": "infraestructura",
+      "busqueda": "from:(proveedor-hosting OR proveedor-base-de-datos OR registrador-dominio)",
+      "urgencia": "media",
+      "piso_urgencia": "media"
+    },
+    {
+      "nombre": "facturas",
+      "busqueda": "subject:(factura OR invoice OR receipt)",
+      "urgencia": "baja",
+      "piso_urgencia": "baja"
+    }
+  ],
+  "ruido": ["newsletter@", "no-reply@marketing."],
+  "senales_criticas": ["suspend", "expir", "abogado", "estafa", "demanda", "vulnerab"],
+  "notificar_desde": "alta",
+  "bitacora": "docs/ops/correo/bitacora/"
+}

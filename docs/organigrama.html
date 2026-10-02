@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Organigrama de Phronesis</title>
+<style>
+:root{--tinta:#14161a;--tinta2:#4a5560;--tinta3:#7c858f;--linea:#e3e7ec;--papel:#f4f5f7;--tarjeta:#fff;--suave:#eef1f4;--acento:#0E7C86}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--tinta:#e8eaed;--tinta2:#b3bac2;--tinta3:#8a939c;--linea:#2c3138;--papel:#121417;--tarjeta:#1a1d21;--suave:#262a30;--acento:#3fb4bd}}
+:root[data-theme="dark"]{--tinta:#e8eaed;--tinta2:#b3bac2;--tinta3:#8a939c;--linea:#2c3138;--papel:#121417;--tarjeta:#1a1d21;--suave:#262a30;--acento:#3fb4bd}
+*{box-sizing:border-box}
+body{margin:0;padding:34px 16px 60px;background:var(--papel);color:var(--tinta);font:15px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:28px;margin:0 0 6px;letter-spacing:-.02em}
+h1 small{font-size:14px;font-weight:600;color:var(--acento);margin-left:8px;letter-spacing:0}
+.sub{color:var(--tinta2);margin:0 0 26px;font-size:15px;max-width:76ch}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.92em}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 30px}
+.kpi{background:var(--tarjeta);border:1px solid var(--linea);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:25px;line-height:1.15;letter-spacing:-.02em}
+.kpi span{font-size:12.5px;color:var(--tinta3)}
+h2{font-size:18px;margin:34px 0 12px;letter-spacing:-.01em}
+.flujo{background:var(--tarjeta);border:1px solid var(--linea);border-radius:14px;padding:18px;margin:0 0 30px;overflow-x:auto}
+.flujo svg{display:block;width:100%;min-width:640px;height:auto}
+.flujo .n rect{fill:var(--suave);stroke:var(--linea)}
+.flujo .n.dueno rect{fill:none;stroke:var(--acento);stroke-width:2}
+.flujo .n.mem rect{fill:none;stroke:var(--tinta3);stroke-dasharray:5 4}
+.flujo .n.bloq rect{fill:none;stroke:#c0563b;stroke-width:1.5}
+.flujo text{fill:var(--tinta);font-size:15px;font-weight:650;text-anchor:middle}
+.flujo text.s{fill:var(--tinta3);font-size:12.5px;font-weight:400}
+.flujo text.et{fill:var(--tinta3);font-size:12px;font-weight:400;text-anchor:start;font-style:italic}
+.flujo .a line,.flujo .a path{stroke:var(--tinta3);stroke-width:1.6;fill:none;marker-end:url(#fl)}
+.area{margin:0 0 30px}
+.area>header{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;border-left:4px solid var(--c);padding-left:11px;margin:0 0 4px}
+.area h3{font-size:17px;margin:0;letter-spacing:-.01em;color:var(--c)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .area h3{filter:brightness(1.6)}}
+:root[data-theme="dark"] .area h3{filter:brightness(1.6)}
+.area>header span{font-size:12.5px;color:var(--tinta3)}
+.bajada{margin:0 0 13px 15px;color:var(--tinta2);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px}
+.ag{background:var(--tarjeta);border:1px solid var(--linea);border-radius:12px;padding:14px 15px}
+.ag h4{margin:0 0 3px;font-size:14px;font-family:ui-monospace,Menlo,monospace;letter-spacing:-.01em;overflow-wrap:anywhere}
+.rol{margin:0 0 11px;font-size:13px;color:var(--tinta2);min-height:2.9em}
+.barra{height:5px;background:var(--suave);border-radius:3px;overflow:hidden;margin:0 0 11px}
+.barra span{display:block;height:100%;border-radius:3px}
+dl{margin:0;font-size:12.5px}
+dl>div{display:flex;justify-content:space-between;gap:8px;padding:2.5px 0;border-bottom:1px dotted var(--suave)}
+dl>div:last-child{border-bottom:0}
+dt{color:var(--tinta3)} dd{margin:0;text-align:right}
+.nota{background:var(--tarjeta);border:1px solid var(--linea);border-left:4px solid var(--acento);border-radius:10px;padding:15px 18px;margin:22px 0 0;font-size:14px}
+.nota h3{margin:0 0 8px;font-size:15px}
+.nota p{margin:0 0 9px;color:var(--tinta2)} .nota p:last-child{margin:0}
+footer{margin:34px 0 0;font-size:12.5px;color:var(--tinta3)}
+@media print{body{background:#fff} .ag,.kpi,.flujo{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Organigrama de Phronesis <small>v2</small></h1>
+<p class="sub">19 agentes de Claude Code en cuatro plugins. Cada uno es la versión genérica de un agente que trabajó meses en un marketplace en producción. La barra mide <b>cuántas veces se reescribió su instrucción allá</b>: cada reescritura es un error real que ya no tienes que cometer tú.</p>
+
+<div class="kpis">
+ <div class="kpi"><b>19</b><span>agentes · 6 comandos</span></div>
+ <div class="kpi"><b>141</b><span>hallazgos de inspectores en origen</span></div>
+ <div class="kpi"><b>160 / 170</b><span>items del backlog resueltos</span></div>
+ <div class="kpi"><b>48</b><span>deploys registrados y verificados</span></div>
+ <div class="kpi"><b>27</b><span>lecciones generalizadas</span></div>
+ <div class="kpi"><b>28 → 16</b><span>lecciones activas tras consolidar</span></div>
+</div>
+
+<h2>El ciclo diario</h2>
+<div class="flujo"><svg viewBox="0 0 980 330" role="img" aria-labelledby="flujo-t flujo-d">
+<title id="flujo-t">El ciclo diario de Phronesis</title>
+<desc id="flujo-d">Un inspector anexa hallazgos al backlog; el resolutor los implementa en la rama de integración; el validador QA revisa y revierte lo que rompa; el dueño modera un solo PR hacia producción. Una vez por semana el curador consolida lo aprendido en las lecciones, que leen todos los agentes al arrancar.</desc>
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--tinta3)"/></marker></defs>
+<g class="n"><rect x="10" y="40" width="170" height="74" rx="12"/><text x="95" y="70">Inspector del día</text><text x="95" y="92" class="s">7 áreas en rotación</text></g>
+<g class="n"><rect x="215" y="40" width="150" height="74" rx="12"/><text x="290" y="70">Backlog</text><text x="290" y="92" class="s">hallazgos verificados</text></g>
+<g class="n"><rect x="400" y="40" width="160" height="74" rx="12"/><text x="480" y="70">/ph-resolver</text><text x="480" y="92" class="s">tope 4 · 1 commit c/u</text></g>
+<g class="n"><rect x="595" y="40" width="160" height="74" rx="12"/><text x="675" y="70">Validador QA</text><text x="675" y="92" class="s">veto · revierte</text></g>
+<g class="n dueno"><rect x="790" y="40" width="180" height="74" rx="12"/><text x="880" y="70">Tú, en un PR</text><text x="880" y="92" class="s">mergear = publicar</text></g>
+<g class="a"><line x1="180" y1="77" x2="213" y2="77"/><line x1="365" y1="77" x2="398" y2="77"/><line x1="560" y1="77" x2="593" y2="77"/><line x1="755" y1="77" x2="788" y2="77"/></g>
+<g class="n bloq"><rect x="400" y="170" width="160" height="62" rx="12"/><text x="480" y="197">Issue</text><text x="480" y="217" class="s">necesita-decision</text></g>
+<g class="a"><path d="M480,114 L480,168"/></g><text x="490" y="146" class="et">restricción dura</text>
+<g class="n mem"><rect x="10" y="250" width="350" height="62" rx="12"/><text x="185" y="277">Lecciones · techo de 20</text><text x="185" y="297" class="s">las leen todos al arrancar</text></g>
+<g class="n mem"><rect x="595" y="250" width="200" height="62" rx="12"/><text x="695" y="277">Curador de memoria</text><text x="695" y="297" class="s">domingo · enruta, no copia</text></g>
+<g class="a"><path d="M675,114 L675,248"/><path d="M593,281 L362,281"/><path d="M95,250 L95,116"/></g>
+<text x="685" y="190" class="et">lo aprendido</text>
+</svg></div>
+
+<section class="area" id="mejora">
+  <header style="--c:#0E7C86"><h3>Loop de mejora</h3><span>plugin <code>mejora</code> · 10 agentes</span></header>
+  <p class="bajada">Encuentra, arregla, valida y aprende. Corre solo cada día.</p>
+  <div class="grid"><article class="ag">
+  <h4>ph-inspector-seguridad</h4>
+  <p class="rol">Fugas de datos, permisos, funciones expuestas, superficie anti-bot</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>19 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>lunes</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-inspector-seo</h4>
+  <p class="rol">Metadata, indexación, sitemap coherente, 404 que no son 500</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>11 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>martes</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-inspector-codigo</h4>
+  <p class="rol">Arquitectura, duplicación recién nacida, tipos, código muerto</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>18 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>miércoles</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-inspector-ux</h4>
+  <p class="rol">Fricción, estados vacío/carga/error, microcopy. No decide producto</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>18 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>jueves</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-inspector-a11y</h4>
+  <p class="rol">WCAG 2.1 AA: contraste del foco, teclado, estados anunciados</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>20 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>viernes</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-inspector-performance</h4>
+  <p class="rol">Core Web Vitals, bundle, consultas repetidas, límites del runtime</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>13 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>sábado</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-inspector-negocio</h4>
+  <p class="rol">Lo que la gente hizo, no el código. Un hallazgo por corrida</p>
+  <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>En producción</dt><dd>42 hallazgos</dd></div>
+    <div><dt>Corre</dt><dd>ventana de foco</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-validador-qa</h4>
+  <p class="rol">Typecheck, build y humo real. Veto: revierte lo que rompa</p>
+  <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>En producción</dt><dd>gate de cada corrida</dd></div>
+    <div><dt>Corre</dt><dd>cierre de cada ciclo</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-curador-memoria</h4>
+  <p class="rol">Consolida lecciones y las enruta a un solo destino. Techo de 20</p>
+  <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>En producción</dt><dd>de 28 a 16 lecciones activas</dd></div>
+    <div><dt>Corre</dt><dd>domingo</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-sintetizador-usabilidad</h4>
+  <p class="rol">Notas de test de usabilidad → items del backlog, sin inventar</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#0E7C86"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>—</dd></div>
+    <div><dt>Corre</dt><dd>a pedido</dd></div>
+  </dl>
+</article></div>
+</section><section class="area" id="ops">
+  <header style="--c:#104F78"><h3>Operación</h3><span>plugin <code>ops</code> · 4 agentes</span></header>
+  <p class="bajada">Que sepas qué está vivo, qué corrió y qué te escribieron.</p>
+  <div class="grid"><article class="ag">
+  <h4>ph-gestor-deploy</h4>
+  <p class="rol">Auditoría de ramas, pre-flight, veredicto y score del release</p>
+  <div class="barra" title="18 revisiones de su instrucción en producción"><span style="width:100%;background:#104F78"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>18</b></dd></div>
+    <div><dt>En producción</dt><dd>48 deploys registrados</dd></div>
+    <div><dt>Corre</dt><dd>antes de cada deploy</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-verificador-deploy</h4>
+  <p class="rol">Prueba que la versión correcta está viva. No cree en el verde</p>
+  <div class="barra" title="18 revisiones de su instrucción en producción"><span style="width:100%;background:#104F78"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>18</b></dd></div>
+    <div><dt>En producción</dt><dd>nace del mismo oficio</dd></div>
+    <div><dt>Corre</dt><dd>después de cada deploy</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-triage-correo</h4>
+  <p class="rol">Qué exige acción, de quién y para cuándo. Detecta filtros que esconden</p>
+  <div class="barra" title="1 revisiones de su instrucción en producción"><span style="width:6%;background:#104F78"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>1</b></dd></div>
+    <div><dt>En producción</dt><dd>36 bitácoras</dd></div>
+    <div><dt>Corre</dt><dd>cada noche</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-vigilante-rutinas</h4>
+  <p class="rol">No arrancó · arrancó y no terminó · corrió sin entregar</p>
+  <div class="barra" title="0 revisiones de su instrucción en producción"><span style="width:0%;background:#104F78"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>0</b> · nuevo</dd></div>
+    <div><dt>En producción</dt><dd>nuevo en v2</dd></div>
+    <div><dt>Corre</dt><dd>cada día</dd></div>
+  </dl>
+</article></div>
+</section><section class="area" id="growth">
+  <header style="--c:#6B3FA0"><h3>Outreach B2B</h3><span>plugin <code>growth</code> · 3 agentes</span></header>
+  <p class="bajada">Pocos contactos, bien elegidos, medidos por rubro.</p>
+  <div class="grid"><article class="ag">
+  <h4>ph-prospector</h4>
+  <p class="rol">Prospectos de fuentes públicas, dominio verificado, tope duro</p>
+  <div class="barra" title="7 revisiones de su instrucción en producción"><span style="width:39%;background:#6B3FA0"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>7</b></dd></div>
+    <div><dt>En producción</dt><dd>157 prospectos</dd></div>
+    <div><dt>Corre</dt><dd>cada corrida</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-copywriter</h4>
+  <p class="rol">Correo humano, de igual a igual. Nunca le describe su negocio</p>
+  <div class="barra" title="5 revisiones de su instrucción en producción"><span style="width:28%;background:#6B3FA0"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>5</b></dd></div>
+    <div><dt>En producción</dt><dd>99 correos enviados</dd></div>
+    <div><dt>Corre</dt><dd>cada corrida</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-estratega</h4>
+  <p class="rol">Umbrales que disparan solos. Escribe en el backlog, no en el resumen</p>
+  <div class="barra" title="4 revisiones de su instrucción en producción"><span style="width:22%;background:#6B3FA0"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>4</b></dd></div>
+    <div><dt>En producción</dt><dd>reescrito tras 1 hallazgo en 2 meses</dd></div>
+    <div><dt>Corre</dt><dd>cierre de cada corrida</dd></div>
+  </dl>
+</article></div>
+</section><section class="area" id="contenido">
+  <header style="--c:#A8442A"><h3>Contenido para redes</h3><span>plugin <code>contenido</code> · 2 agentes</span></header>
+  <p class="bajada">Nada se publica sin dos vistos buenos.</p>
+  <div class="grid"><article class="ag">
+  <h4>ph-director-arte</h4>
+  <p class="rol">Sistema visual, legibilidad, historias sin botones muertos</p>
+  <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#A8442A"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>En producción</dt><dd>10 tandas</dd></div>
+    <div><dt>Corre</dt><dd>cada tanda</dd></div>
+  </dl>
+</article><article class="ag">
+  <h4>ph-jefe-copy</h4>
+  <p class="rol">Cuenta antes de opinar: rayas largas, ganchos, muletillas</p>
+  <div class="barra" title="2 revisiones de su instrucción en producción"><span style="width:11%;background:#A8442A"></span></div>
+  <dl>
+    <div><dt>Revisiones de origen</dt><dd><b>2</b></dd></div>
+    <div><dt>En producción</dt><dd>10 tandas</dd></div>
+    <div><dt>Corre</dt><dd>cada tanda</dd></div>
+  </dl>
+</article></div>
+</section>
+
+<div class="nota">
+<h3>Qué mide la barra, y qué no</h3>
+<p><b>Un agente no aprende solo.</b> No tiene memoria entre corridas ni pesos que se ajusten. Lo único que persiste es su archivo de instrucciones, así que <b>cada revisión de ese archivo es una lección incorporada para siempre</b>. Es el único progreso de aprendizaje que se puede medir.</p>
+<p><b>Hay una segunda memoria, y es compartida:</b> el archivo de lecciones del proyecto. Lo cura <code>ph-curador-memoria</code> y lo leen todos al arrancar: una lección que entra ahí la aprende la flota entera.</p>
+<p><b>No leas la barra al revés.</b> Muchas revisiones pueden significar que el agente se equivocó seguido, o que hace el trabajo más delicado. Pocas pueden significar que quedó bien a la primera, o que nadie lo estaba mirando. Lo que desempata es la fila «En producción».</p>
+</div>
+<div class="nota" style="border-left-color:#c0563b">
+<h3>Lo que enseñó armar el organigrama original</h3>
+<p><b>El gestor de deploy acumuló 18 revisiones, más que los siete inspectores juntos.</b> Desplegar es, por lejos, donde más lecciones se pagaron: cada incidente terminó escrito en ese archivo. Por eso en la v2 se partió en dos (gestor antes, verificador después).</p>
+<p><b>El curador de memoria existía y nadie lo invocaba.</b> El archivo de lecciones llegó a 28 entradas, siete de las cuales decían lo mismo con distinto disfraz. Al consolidarlas, bajó a 16, y ahora el curador corre solo cada domingo.</p>
+<p><b>El estratega de outreach tenía metas escritas y dejó un hallazgo en dos meses.</b> Sus umbrales eran aspiraciones y lo que encontraba lo decía en un resumen que se borraba. Se reescribió con condiciones que disparan solas.</p>
+</div>
+<footer>Datos del proyecto de origen leídos de <code>git</code>, del backlog y del registro de despliegues el 2026-10-01. Phronesis · MIT.</footer>
+</div>
+</body>
+</html>

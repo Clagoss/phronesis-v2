@@ -1,0 +1,111 @@
+# Phronesis — ciclo diario del loop de mejora continua, en la nube.
+#
+# Copia este archivo a .github/workflows/ciclo-diario.yml de tu proyecto y ajusta lo marcado
+# con AJUSTA. Corre sin depender de tu computador: inspecciona el área del día, resuelve lo
+# resoluble, valida con QA, pushea a la rama de integración y deja un PR hacia producción
+# que tú moderas. Producción no se toca nunca desde acá.
+#
+# Requisitos:
+#   - Secret CLAUDE_CODE_OAUTH_TOKEN (sale de `claude setup-token`).
+#   - Los agentes y comandos de Phronesis copiados en .claude/ del repo (scripts/instalar.sh
+#     de Phronesis lo hace). En CI no hay marketplace de plugins: los archivos tienen que
+#     estar en el repo.
+#   - PHRONESIS.md completo en la raíz.
+name: ciclo-diario
+
+on:
+  schedule:
+    # Minuto distinto de 0 a propósito: GitHub atrasa o se salta los crons del minuto 0
+    # cuando la cola está llena. AJUSTA la hora (está en UTC).
+    - cron: "23 12 * * 1-6"
+  workflow_dispatch:
+    inputs:
+      area:
+        description: "Área a inspeccionar (vacío = rotación del día)"
+        required: false
+        default: ""
+
+env:
+  RAMA_INTEGRACION: staging   # AJUSTA
+  RAMA_PRODUCCION: main       # AJUSTA
+
+concurrency:
+  group: phronesis-ciclo
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write   # lo exige claude-code-action
+
+jobs:
+  ciclo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RAMA_INTEGRACION }}
+          fetch-depth: 0
+
+      - name: Poner integración al día con producción
+        run: |
+          git config user.name "phronesis-ciclo"
+          git config user.email "phronesis-ciclo@users.noreply.github.com"
+          git merge "origin/$RAMA_PRODUCCION" --no-edit || {
+            echo "::error::Conflicto al traer $RAMA_PRODUCCION — resolver a mano"; exit 1; }
+
+      # AJUSTA: prepara el entorno para que el validador pueda correr typecheck y build.
+      # - uses: actions/setup-node@v4
+      #   with: { node-version: 22 }
+      # - run: npm ci
+
+      - name: Ciclo (inspección + resolución + QA)
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          show_full_output: true
+          prompt: |
+            ENTORNO CI: corres sin supervisión en GitHub Actions. No lances tareas en segundo
+            plano ni te quedes esperando notificaciones: cuando termina tu turno, termina la
+            corrida. Si no puedes invocar subagentes, lee el archivo del agente en
+            .claude/agents/ y ejecuta su remit tú mismo, con sus mismas reglas.
+
+            Ejecuta .claude/commands/ph-ciclo.md. Área: "${{ inputs.area }}" (vacía = rotación
+            de PHRONESIS.md). Commitea en la rama actual con mensajes que expliquen el porqué.
+            NO pushees (lo hace el workflow), NO despliegues, NO toques la rama de producción.
+          claude_args: |
+            --allowedTools "Bash,Read,Edit,Write,Glob,Grep,TodoWrite"
+            --permission-mode acceptEdits
+
+      - name: Push a integración (con reintento)
+        # Si otras rutinas pushean a la misma rama, un push pelado pierde la carrera.
+        run: |
+          for i in 1 2 3; do
+            git pull --no-rebase --no-edit origin "$RAMA_INTEGRACION" || true
+            git push origin "$RAMA_INTEGRACION" && exit 0
+            echo "push rechazado (intento $i); reintento"; sleep 5
+          done
+          echo "::error::No se pudo pushear tras 3 intentos"; exit 1
+
+      # AJUSTA (opcional): un gate determinista además del QA del agente, y el deploy al
+      # ambiente de integración si tienes uno.
+      # - run: npm run typecheck
+      # - run: npm run deploy:staging
+
+      - name: Crear o actualizar el PR hacia producción
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CAMBIOS=$(git log "origin/$RAMA_PRODUCCION..$RAMA_INTEGRACION" --oneline --no-merges | head -30)
+          CUERPO=$(printf '## Cambios listos en %s\n\n```\n%s\n```\n\n**Mergear este PR = publicar en producción.**\n' "$RAMA_INTEGRACION" "$CAMBIOS")
+          PR=$(gh pr list --head "$RAMA_INTEGRACION" --base "$RAMA_PRODUCCION" --state open --json number --jq '.[0].number')
+          if [ -z "$PR" ]; then
+            [ -n "$CAMBIOS" ] && gh pr create --head "$RAMA_INTEGRACION" --base "$RAMA_PRODUCCION" \
+              --title "Mejoras del loop listas para producción" --body "$CUERPO" || echo "Sin cambios."
+          else
+            gh pr edit "$PR" --body "$CUERPO"
+            gh pr comment "$PR" --body "Corrida $(date -u +%F): $RAMA_INTEGRACION actualizada."
+          fi

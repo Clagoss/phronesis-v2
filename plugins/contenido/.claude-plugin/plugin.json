@@ -1,0 +1,16 @@
+{
+  "name": "contenido",
+  "version": "2.0.0",
+  "description": "Contenido para redes: director de arte y jefe de copy, con checklist que se cuenta en vez de opinarse.",
+  "author": {
+    "name": "Carlos Lagos",
+    "url": "https://github.com/Clagoss"
+  },
+  "license": "MIT",
+  "keywords": [
+    "phronesis",
+    "mejora-continua",
+    "agentes",
+    "claude-code"
+  ]
+}

@@ -1,0 +1,69 @@
+# Phronesis — curaduría semanal de la memoria del proyecto.
+#
+# Una vez por semana, ph-curador-memoria lee lo que pasó desde su última corrida y enruta cada
+# aprendizaje a un solo destino. Solo lee el repo y escribe en él: no necesita salir a internet.
+# Copia a .github/workflows/memoria-semanal.yml y ajusta lo marcado con AJUSTA.
+name: memoria-semanal
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    # Domingo: el día que no corre el ciclo diario, así nadie más escribe en la rama. AJUSTA.
+    - cron: "23 13 * * 0"
+
+env:
+  RAMA_INTEGRACION: staging   # AJUSTA
+  ARCHIVO_LECCIONES: docs/mejora/LECCIONES.md   # AJUSTA si cambiaste la ruta en PHRONESIS.md
+
+concurrency:
+  group: phronesis-memoria
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  memoria:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RAMA_INTEGRACION }}
+          fetch-depth: 0   # necesita historia: lee git log desde su último commit
+
+      - run: |
+          git config user.name "phronesis-memoria"
+          git config user.email "phronesis-memoria@users.noreply.github.com"
+
+      - name: Curaduría
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          show_full_output: true
+          prompt: |
+            ENTORNO CI: sin supervisión, sin tareas en segundo plano. Ejecuta
+            .claude/commands/ph-memoria.md (lee .claude/agents/ph-curador-memoria.md y ejecuta su
+            remit tú mismo). Commitea con un mensaje que EMPIECE con "memoria:". Si no hubo nada
+            que aprender, no commitees y dilo. NO pushees.
+          claude_args: |
+            --allowedTools "Bash,Read,Edit,Write,Glob,Grep,TodoWrite"
+            --permission-mode acceptEdits
+
+      - name: Techo de 20 lecciones activas
+        run: |
+          ACTIVAS=$(awk '/^## Lecciones activas/,/^## Archivo/' "$ARCHIVO_LECCIONES" | grep -c '^- ' || true)
+          echo "Lecciones activas: $ACTIVAS"
+          [ "$ACTIVAS" -le 20 ] || { echo "::error::$ACTIVAS activas; el techo es 20"; exit 1; }
+
+      - name: Push
+        run: |
+          [ -z "$(git log "origin/$RAMA_INTEGRACION..HEAD" --oneline)" ] && { echo "Semana sin aprendizajes: resultado válido."; exit 0; }
+          for i in 1 2 3; do
+            git pull --no-rebase --no-edit origin "$RAMA_INTEGRACION" || true
+            git push origin "$RAMA_INTEGRACION" && exit 0
+            sleep 5
+          done
+          exit 1
