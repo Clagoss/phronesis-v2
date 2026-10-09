@@ -1,8 +1,10 @@
-# Phronesis v2
+# Phronesis v2.1
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
+
+**Versión 2.1.0** (2026-10-08) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
@@ -25,7 +27,7 @@ todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido 
 - [Seguridad: lo que los agentes nunca hacen](#seguridad-lo-que-los-agentes-nunca-hacen)
 - [Límites honestos](#límites-honestos)
 - [Estructura del repo](#estructura-del-repo)
-- [Qué cambió de la v1 a la v2](#qué-cambió-de-la-v1-a-la-v2)
+- [Qué cambió de la v1 a la v2](#qué-cambió-de-la-v1-a-la-v2) · [registro de cambios](CHANGELOG.md)
 
 ---
 
@@ -377,7 +379,8 @@ phronesis-v2/
 │   └── github/               ciclo-diario.yml · memoria-semanal.yml
 ├── scripts/instalar.sh       copia agentes y comandos a .claude/ de tu proyecto
 ├── organigrama/              cómo se mueve el equipo, el valor de cada agente y el organigrama
-└── LECCIONES.md              27 patrones aprendidos en producción
+├── LECCIONES.md              27 patrones aprendidos en producción
+└── CHANGELOG.md              qué cambió en cada versión
 ```
 
 ---
@@ -397,6 +400,8 @@ phronesis-v2/
   nota de release al final. Viene del deploy management de Avisia, deploys #18 a #48.
 - **Plantillas de GitHub Actions** para correr todo en la nube.
 - **12 lecciones nuevas** en [LECCIONES.md](LECCIONES.md).
+
+Lo que vino después de la 2.0 está en el [registro de cambios](CHANGELOG.md).
 
 ---
 
