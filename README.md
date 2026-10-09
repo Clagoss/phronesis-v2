@@ -1,10 +1,10 @@
-# Phronesis v2.2
+# Phronesis v2.3
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-**Versión 2.2.0** (2026-10-09) · [qué cambió en cada versión](CHANGELOG.md)
+**Versión 2.3.0** (2026-10-09) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
@@ -280,7 +280,8 @@ Corre los domingos, que es el día que el ciclo descansa: así nadie más escrib
 ### 7. Opcional: los demás plugins
 
 - **`ops` — despliegues.** El instalador deja en tu proyecto el script de inventario
-  (`scripts/ops/inventario-deploy.mjs`) y tres archivos en `docs/ops/`: `deploy.json` (ramas, URL de
+  (`scripts/ops/inventario-deploy.mjs`, con `orden-migraciones.mjs`, que lee si una migración va al
+  merge o después) y tres archivos en `docs/ops/`: `deploy.json` (ramas, URL de
   salud, **rutas sensibles por nivel de riesgo**), `fuera-del-lote.json` (lo que dejas fuera a
   propósito, con motivo) y `protocolo-revision.json` (cuándo revisar el protocolo). Ajusta
   `deploy.json`, llena la §7 de `PHRONESIS.md` y expón el commit del build en un endpoint de salud
@@ -375,7 +376,7 @@ phronesis-v2/
 │   ├── BACKLOG.md · LECCIONES.md · DEUDAS.md
 │   ├── rutinas.json · correo.json
 │   ├── deploy.json · fuera-del-lote.json · protocolo-revision.json
-│   ├── scripts/              inventario-deploy.mjs (F1 del protocolo de deploy)
+│   ├── scripts/              inventario-deploy.mjs · orden-migraciones.mjs (F1 y F3 del protocolo de deploy)
 │   └── github/               ciclo-diario.yml · memoria-semanal.yml
 ├── scripts/instalar.sh       copia agentes y comandos a .claude/ de tu proyecto
 ├── organigrama/              cómo se mueve el equipo, el valor de cada agente y el organigrama

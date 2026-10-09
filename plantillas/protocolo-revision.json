@@ -6,10 +6,11 @@
   "revisar_tras_deploys": 5,
   "revisar_el": "AAAA-MM-DD",
   "que_revisar": [
-    "¿El inventario frenó algo que no debía, o dejó pasar algo que sí? Cada falso positivo y cada falso negativo, con el deploy en que ocurrió.",
-    "¿La clasificación de riesgo acertó? Lotes marcados ALTO que no lo eran, o al revés.",
-    "¿La observación de F9 encontró algo alguna vez, o es ceremonia?",
-    "¿La nota de release se lee entera, o sobra la mitad?",
+    "¿El inventario frenó algo que no debía, o dejó pasar algo que sí? Cada caso, con el deploy en que ocurrió.",
+    "Riesgo efectivo: ¿cuántas veces se bajó en la puerta, con qué motivo, y alguna vez se bajó mal (algo se rompió en una zona rebajada)?",
+    "F9 liviana: ¿la segunda pasada encontró algo? ¿Algún problema apareció después y una observación completa lo habría visto?",
+    "orden-migraciones.mjs: ¿reconoció todas las migraciones al merge o después, o hubo que declarar alguna a mano?",
+    "La nota corta: ¿le faltó al dueño algo que necesitaba para decidir?",
     "¿Cuánto dura una corrida completa, y qué fase se come el tiempo?"
   ]
 }

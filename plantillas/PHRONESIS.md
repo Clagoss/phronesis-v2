@@ -81,7 +81,11 @@ Agrega las propias de tu proyecto (temas legales, categorías sensibles, datos d
 - **Comando de vuelta atrás (rollback):**
 - **Registro de deploys:** ej. `docs/ops/DEPLOY-LOG.md`
 - **¿Integración y producción comparten la base de datos?** sí / no
-- **Dónde se declaran las migraciones que van después del merge:**
+- **¿Las migraciones se aplican a mano antes del merge, o las aplica el pipeline al desplegar?** (si es a
+  mano, `migraciones_antes_del_merge: true` en `deploy.json`)
+- **Dónde se declaran las migraciones que van al merge o después:** en el encabezado del propio
+  archivo («SE APLICA AL MERGE», «APLICAR DESPUÉS DE QUE EL CÓDIGO ESTÉ EN PRODUCCIÓN») o en una deuda
+  abierta que la nombre; `orden-migraciones.mjs` lo lee de ahí.
 - **¿El sitio bloquea IPs de datacenter?** sí / no (si sí, el humo de producción corre desde una máquina normal)
 - **Cómo avisar a las demás sesiones de un deploy:** (ej. un marcador versionado que leen al arrancar)
 - **Configuración del inventario:** `docs/ops/deploy.json`

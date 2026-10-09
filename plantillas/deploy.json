@@ -7,6 +7,9 @@
   "rutas_codigo": ["src/", "app/", "packages/"],
   "rutas_no_producto": [],
   "patron_migraciones": "^(db|supabase|prisma)/migrations/.+",
+  "migraciones_antes_del_merge": false,
+  "rutas_observacion_completa": ["(^|/)(cron|crons|scheduled|jobs)/", "scheduled\\.(ts|js)$", "worker\\.(ts|js)$", "wrangler\\.(toml|jsonc?)$", "vercel\\.json$"],
+  "patron_envio_masivo": null,
   "workflow_integracion": "deploy-staging.yml",
   "workflow_produccion": "deploy-prod.yml",
   "ignorar_en_integracion": ["docs/**", "*.md", "**/*.md"],
@@ -31,6 +34,9 @@
   "_notas": {
     "patron_id_despliegue": "Expresión regular con un grupo que capture el identificador del despliegue en el log del workflow de producción, para poder volver exactamente a esa versión. Ejemplo para Cloudflare Workers: \"Current Version ID:\\\\s*([0-9a-f-]{36})\".",
     "rutas_sensibles": "La primera regla que calza gana: ordénalas de más a menos riesgo. Las de nivel alto deberían coincidir con las restricciones duras de PHRONESIS.md.",
+    "migraciones_antes_del_merge": "true si las migraciones se aplican a mano antes del merge (por ejemplo, cuando integración y producción comparten la base). Entonces una migración del lote solo sube el riesgo si su orden dice «al merge» o «después», en su encabezado o en una deuda abierta (lo lee scripts/ops/orden-migraciones.mjs); las demás cuentan como ya aplicadas, riesgo nulo. false si las aplica el pipeline al desplegar: todas cuentan como al merge.",
+    "rutas_observacion_completa": "Si el lote toca alguna de estas rutas (expresiones regulares), la observación de F9 es completa: espera la próxima corrida de las tareas programadas. Si no, es liviana: una segunda pasada a los ~10 min que no frena el cierre.",
+    "patron_envio_masivo": "Expresión regular que marca, en una deuda abierta, un envío masivo que espera el merge (ej. \"--enviar\\\\b\"). El inventario los lista para sumarlos contra el cupo diario del proveedor de correo y no juntarlos el mismo día. null lo apaga.",
     "rutas_no_producto": "Archivos o carpetas dentro de rutas_codigo que no viajan a producción (por ejemplo, un registro de excepciones de migraciones que solo lee el pre-flight). Quedan fuera del chequeo de código y del lote.",
     "actividad": "Minutos desde el último commit en integración o producción. Menos de frena_min: alguien está trabajando y el inventario frena. Entre frena_min y revisar_min: se revisa en la puerta.",
     "proyectos_ajenos": "Patrones de ruta de otros proyectos que trabajas en paralelo y que jamás deben entrar a este merge."

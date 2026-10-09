@@ -20,7 +20,8 @@
 
 import { readFileSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { resolve } from "node:path";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const args = process.argv.slice(2);
 const JSON_OUT = args.includes("--json");
@@ -51,6 +52,17 @@ const RUTAS_CODIGO = cfg.rutas_codigo ?? ["src/"];
 // decisiones que lee el pre-flight, por ejemplo). Contarlos como código hace frenar por nada.
 const NO_PRODUCTO = cfg.rutas_no_producto ?? [];
 const esCodigo = (f) => RUTAS_CODIGO.some((r) => f.startsWith(r)) && !NO_PRODUCTO.some((r) => f.startsWith(r));
+// ¿Las migraciones se aplican antes del merge (base compartida, aplicación manual)? Entonces una
+// migración del lote solo sube el riesgo si su orden declarado dice «al merge» o «después»: las demás
+// ya corrieron en producción y su riesgo ya ocurrió. Si las aplica el pipeline al desplegar, todas
+// cuentan como «al merge».
+const MIG_ANTES = cfg.migraciones_antes_del_merge === true;
+// Si el lote toca esto, la observación de F9 espera la próxima tarea programada (completa); si no,
+// basta una segunda pasada a los ~10 min que no frena el cierre (liviana).
+const RE_OBS_COMPLETA = new RegExp((cfg.rutas_observacion_completa ?? ["(^|/)(cron|crons|scheduled|jobs)/", "scheduled\\.(ts|js)$", "worker\\.(ts|js)$", "wrangler\\.(toml|jsonc?)$", "vercel\\.json$"]).join("|"));
+// Envíos masivos que esperan el merge en deudas abiertas: comparten el cupo del proveedor (correo,
+// SMS, API) con lo que el sitio necesita mandar todos los días. Dos el mismo día lo agotan.
+const RE_ENVIO = cfg.patron_envio_masivo ? new RegExp(cfg.patron_envio_masivo) : null;
 const SILENCIO_MIN = cfg.actividad?.frena_min ?? 10;
 const AVISO_MIN = cfg.actividad?.revisar_min ?? 30;
 const RE_MIGRACION = cfg.patron_migraciones ? new RegExp(cfg.patron_migraciones) : null;
@@ -138,6 +150,10 @@ for (const bloque of (git("worktree", "list", "--porcelain") ?? "").split("\n\n"
   if (st.length) frena("worktrees", `${nombre} [${rama ?? "detached"}]: ${st.length} archivo(s) sin commitear`, w.archivos.slice(0, 4).join(", "));
   if (sinPushear) frena("worktrees", `${nombre} [${rama}]: ${sinPushear} commit(s) sin pushear`);
   if (detached) frena("worktrees", `${nombre} está en HEAD separado`, "un worktree sin rama no tiene adónde empujar su trabajo");
+  // Los chequeos del pre-flight leen el árbol LOCAL: si la copia de integración va atrás de su
+  // remoto, lo que se verifica no es lo que se va a mergear (en el origen, dio un falso rojo).
+  const atras = rama === INTEG ? Number(gitIn(dir, "rev-list", "--count", `HEAD..origin/${INTEG}`) ?? 0) : 0;
+  if (atras) frena("worktrees", `${nombre} [${rama}] está ${atras} commit(s) ATRÁS de origin/${INTEG}`, "git pull --ff-only antes del pre-flight: los chequeos leen el árbol local");
 }
 
 // ── C. Stashes ─────────────────────────────────────────────────────────────────────────
@@ -231,6 +247,16 @@ const esperanMerge = [];
       esperanMerge.push({ id: c[0].replace("|", "").trim(), tema: (c[1] ?? "").replace(/[*`~]/g, "").trim().slice(0, 90) });
     }
   }
+  if (RE_ENVIO) {
+    const envios = [];
+    for (const l of deudas.split("\n")) {
+      if (!/^\| ?D-/.test(l)) continue;
+      const c = l.split(" | ");
+      const estado = (c[c.length - 1] ?? "").replace(/\|\s*$/, "").trim();
+      if (!/^(✅|🟢)/.test(estado) && RE_ENVIO.test(l)) envios.push(c[0].replace("|", "").trim());
+    }
+    if (envios.length) revisar("envíos", `${envios.length} deuda(s) piden un envío masivo al merge: súmalos contra el cupo del proveedor y no los juntes el mismo día`, envios.join(", "));
+  }
   if (esperanMerge.length) revisar("deudas", `${esperanMerge.length} deuda(s) abiertas hablan del merge — leerlas antes de la puerta`, esperanMerge.map((d) => d.id).join(", "));
 }
 
@@ -243,12 +269,28 @@ const migraciones = RE_MIGRACION ? archivos.filter((f) => RE_MIGRACION.test(f)) 
 if (!RE_MIGRACION) info("migraciones", "sin patron_migraciones configurado: no se detectan migraciones en el lote");
 if (!SENSIBLES.length) revisar("riesgo", "sin rutas_sensibles configuradas: el riesgo del lote se calcula solo como nulo o bajo");
 
+let ordenesDeclarados = null;
+try {
+  ({ ordenesDeclarados } = await import(pathToFileURL(resolve(dirname(fileURLToPath(import.meta.url)), "orden-migraciones.mjs")).href));
+} catch { /* sin el módulo: el orden solo se lee del registro, como antes */ }
+if (MIG_ANTES && migraciones.length && !ordenesDeclarados) revisar("migraciones", "falta scripts/ops/orden-migraciones.mjs: no se puede leer qué migraciones van al merge; todas cuentan como por aplicar");
+const ordenes = ordenesDeclarados ? ordenesDeclarados(RAIZ, migraciones, ruta("registro_deudas", "docs/DEUDAS.md")) : new Map();
+const porAplicar = !MIG_ANTES || !ordenesDeclarados ? migraciones : migraciones.filter((f) => ordenes.has(f));
 const tocadas = {};
 for (const f of archivos) {
+  if (migraciones.includes(f) && !porAplicar.includes(f)) {
+    (tocadas["migraciones ya aplicadas"] ??= { nivel: "nulo", archivos: [] }).archivos.push(f);
+    continue;
+  }
+  if (migraciones.includes(f)) {
+    (tocadas["migraciones al merge o después"] ??= { nivel: "alto", archivos: [] }).archivos.push(f);
+    continue;
+  }
   for (const s of SENSIBLES) if (s.re.test(f)) { (tocadas[s.area] ??= { nivel: s.nivel, archivos: [] }).archivos.push(f); break; }
 }
 const orden = { alto: 3, medio: 2, bajo: 1, nulo: 0 };
 const riesgo = Object.values(tocadas).reduce((m, t) => (orden[t.nivel] > orden[m] ? t.nivel : m), codigo.length ? "bajo" : "nulo");
+const observacionCompleta = archivos.some((f) => RE_OBS_COMPLETA.test(f));
 const masViejo = commits.length ? Math.min(...commits.map((c) => c.t)) : null;
 const leadTimeHoras = masViejo ? Math.round((Date.now() / 1000 - masViejo) / 3600) : null;
 
@@ -319,7 +361,7 @@ const resultado = {
   veredicto, frena: nFrena, revisar: nRevisar,
   ramas, worktrees, stashes: stashes.length, commitsHuerfanos: huerfanos.length,
   remotasFuera: remotas, prs: prs.map((p) => ({ numero: p.number, rama: p.headRefName, mergeable: p.mergeable })),
-  lote: { commits: commits.length, archivos: archivos.length, codigo: codigo.length, migraciones, riesgo, tocadas, leadTimeHoras },
+  lote: { commits: commits.length, archivos: archivos.length, codigo: codigo.length, migraciones, porAplicar, ordenes: Object.fromEntries(ordenes), riesgo, tocadas, leadTimeHoras, observacionCompleta },
   ci, integracion: { ultimoCodigo: ultimoCodigo?.slice(0, 7), ...stg },
   esperanMerge, retorno, revisionProtocolo, hallazgos,
 };
@@ -331,7 +373,8 @@ if (JSON_OUT) {
 
 const ico = { frena: "❌", revisar: "⚠️ ", info: "·" };
 console.log(`\nINVENTARIO DE DEPLOY — ${veredicto}${nFrena ? ` (${nFrena} cosa(s) frenan)` : ""}\n`);
-console.log(`Lote        ${commits.length} commits · ${codigo.length} archivos de código · ${migraciones.length} migración(es) · riesgo ${riesgo.toUpperCase()}`);
+console.log(`Lote        ${commits.length} commits · ${codigo.length} archivos de código · ${migraciones.length} migración(es) (${porAplicar.length} al merge o después) · riesgo calculado ${riesgo.toUpperCase()}`);
+console.log(`Observación F9: ${observacionCompleta ? "COMPLETA: el lote toca tareas programadas, espera la próxima corrida" : "liviana: segunda pasada a los ~10 min, sin frenar el cierre"}`);
 if (leadTimeHoras !== null) console.log(`Antigüedad  el commit más viejo del lote tiene ${leadTimeHoras < 48 ? leadTimeHoras + " h" : Math.round(leadTimeHoras / 24) + " días"}`);
 console.log(`Ramas       ${faltan.length ? `falta ${faltan.map((r) => `origin/${r}`).join(", ")}` : `${PROD}...${INTEG} = ${soloProd} ${soloInteg} · ${INTEG} contiene ${PROD}: ${integContieneProd ? "sí" : "no"}`}`);
 console.log(`Worktrees   ${worktrees.map((w) => `${w.ruta.replace(/^.*\//, "")}[${w.rama ?? "detached"}] ${w.perdido ? "NO ESTÁ EN DISCO" : `${w.sueltos} sueltos`}`).join(" · ")}`);

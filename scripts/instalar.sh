@@ -50,6 +50,7 @@ copiar_si_falta() {
 }
 if printf '%s\n' "${PLUGINS[@]}" | grep -qx ops; then
   copiar_si_falta "$AQUI/plantillas/scripts/inventario-deploy.mjs" "$DESTINO/scripts/ops/inventario-deploy.mjs"
+  copiar_si_falta "$AQUI/plantillas/scripts/orden-migraciones.mjs" "$DESTINO/scripts/ops/orden-migraciones.mjs"
   copiar_si_falta "$AQUI/plantillas/deploy.json"              "$DESTINO/docs/ops/deploy.json"
   copiar_si_falta "$AQUI/plantillas/fuera-del-lote.json"      "$DESTINO/docs/ops/fuera-del-lote.json"
   copiar_si_falta "$AQUI/plantillas/protocolo-revision.json"  "$DESTINO/docs/ops/protocolo-revision.json"

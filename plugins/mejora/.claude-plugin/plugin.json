@@ -1,6 +1,6 @@
 {
   "name": "mejora",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "El loop de mejora continua: 7 inspectores, validador QA, curador de memoria, sintetizador de usabilidad y los comandos /ph-ciclo, /ph-inspeccionar, /ph-resolver, /ph-memoria, /ph-iniciar.",
   "author": {
     "name": "Carlos Lagos",

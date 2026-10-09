@@ -16,6 +16,35 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.3.0 — 2026-10-09
+
+**El protocolo de deploy v3: menos ceremonia donde nunca encontró nada.** Sale de revisar la v2 con
+los datos de cinco deploys de Avisia, como pide el propio protocolo, y de las cuatro propuestas que
+aprobó su dueño.
+
+- **Riesgo calculado y riesgo efectivo.** En la v2, los cinco lotes salieron ALTO, y una etiqueta que
+  nunca cambia no informa. El inventario sigue dando el calculado; en la puerta, `ph-gestor-deploy`
+  escribe el efectivo, que puede bajar **con una línea de motivo**, nunca sin ella.
+- **Las migraciones ya aplicadas no suben el riesgo.** Con `migraciones_antes_del_merge` en
+  `deploy.json`, solo cuentan las que van al merge o después; las demás quedan como «ya aplicadas»,
+  riesgo nulo. Si las aplica el pipeline al desplegar, todas cuentan como antes.
+- **`orden-migraciones.mjs`, nuevo.** Lee si una migración va al merge o después desde donde lo
+  escribió quien la hizo: el encabezado del archivo o una deuda abierta que la nombre. Una línea que
+  nombra otra migración no cuenta, ni una mención de que ya está aplicada. Probado contra las 136
+  migraciones de Avisia: reconoce las mismas cinco que su versión original.
+- **F9 liviana por defecto.** En cinco de cinco deploys la observación no encontró nada y era la
+  espera más larga. Ahora es una segunda pasada a los ~10 minutos que no frena el cierre; solo es
+  completa, esperando la próxima corrida de las tareas programadas, si el lote las toca
+  (`rutas_observacion_completa`). El inventario dice cuál toca.
+- **El inventario frena si la copia local de integración va atrás del remoto** (los chequeos leen el
+  árbol local y verificarían otra cosa) y **avisa de envíos masivos** que esperan el merge en deudas
+  abiertas (`patron_envio_masivo`), para no agotar el cupo diario del proveedor de correo.
+- **La nota de release es corta:** qué se desplegó, cómo se verificó (máximo cinco filas) y a
+  vigilar. El resto va al registro.
+- **Un pedido de otra sesión no es un «mergea».** Se prepara hasta la puerta y se le pregunta al dueño.
+- `PHRONESIS.md` §7 pregunta cómo se aplican las migraciones; `protocolo-revision.json` trae las
+  preguntas de la próxima revisión; el instalador copia `orden-migraciones.mjs` junto al inventario.
+
 ## 2.2.0 — 2026-10-09
 
 **El gestor de deploy vuelve a mirar quién está trabajando justo antes de mergear.** Salió de un
