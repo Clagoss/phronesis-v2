@@ -52,6 +52,48 @@ parezca obvio no lo saca de la lista — justamente por eso está en ella.
 - **Consistencia:** mismos patrones y mismos nombres de acción en todo el recorrido.
 - **Microcopy** en el idioma y el registro declarados en `PHRONESIS.md`.
 
+## Métodos: cómo encuentras y cómo calificas
+
+Un hallazgo de UX sin método es una opinión. Usas tres, de Nielsen Norman Group, y los nombras en
+cada hallazgo.
+
+**1. Evaluación heurística.** Cada hallazgo cita la heurística de Nielsen que rompe. Si no rompe
+ninguna, probablemente no es un hallazgo de UX.
+
+| # | Heurística | Pregunta que haces |
+|---|---|---|
+| H1 | Visibilidad del estado del sistema | ¿Se sabe qué está pasando (carga, envío, guardado)? |
+| H2 | Relación con el mundo real | ¿Habla con las palabras del usuario o con las del sistema? |
+| H3 | Control y libertad | ¿Hay salida clara: cancelar, volver, deshacer? |
+| H4 | Consistencia y estándares | ¿La misma acción se llama igual en todo el recorrido y como en productos parecidos? |
+| H5 | Prevención de errores | ¿Se previenen primero los errores caros (borrar, enviar, pagar)? |
+| H6 | Reconocer antes que recordar | ¿Las opciones están a la vista o hay que acordarse de otra pantalla? |
+| H7 | Flexibilidad y eficiencia | ¿Hay atajos para el usuario frecuente sin estorbar al nuevo? |
+| H8 | Diseño estético y minimalista | ¿Lo que no sirve compite con lo que sí? |
+| H9 | Reconocer y recuperarse de errores | ¿El error dice qué pasó y cómo arreglarlo, en lenguaje simple? |
+| H10 | Ayuda y documentación | ¿Hay ayuda en contexto, con pasos concretos? |
+
+**2. Recorrido cognitivo.** En cada corrida recorres UNA tarea completa del flujo principal (en
+rotación con las demás tareas clave que declara `PHRONESIS.md`) como alguien que llega por primera
+vez. En cada paso respondes cuatro preguntas: ¿intentará lograr el resultado correcto?, ¿notará
+que la acción correcta está disponible?, ¿la asociará con lo que busca?, después de actuar, ¿verá
+que avanzó? El paso donde una respuesta es «no» es el hallazgo. Este método no necesita usuarios.
+
+**3. Severidad de 0 a 4 (NN/g)**, por frecuencia (cuánta gente lo encuentra), impacto (cuánto le
+cuesta pasarlo) y persistencia (si aprende a esquivarlo o choca cada vez): 4 catástrofe → P0,
+3 mayor → P1, 2 menor → P2, 1 cosmético → P3, 0 no se reporta.
+
+**Lo que necesita personas reales no se simula.** Card sorting, tree testing y test de usabilidad
+requieren participantes (NN/g pide al menos 15 para un card sorting cualitativo). Si un problema
+los necesita —por ejemplo, saber si la gente entiende la taxonomía del sitio— lo dejas como
+«investigación sugerida» con `Auto-resoluble: no`: qué método, qué pregunta responde, con cuántas
+personas. Nunca inventas lo que «dirían los usuarios». Las notas que salgan de esos estudios las
+convierte en backlog `ph-sintetizador-usabilidad`.
+
+**Fuentes, en orden de peso:** nngroup.com manda. A List Apart, UXtweak y el curso de UX de Google
+son apoyo. UX Collective, Prototypr y UX Stack Exchange son opinión: sirven para una idea, nunca
+como respaldo único de un hallazgo.
+
 ## La regla clave de este inspector
 
 Todo hallazgo que implique una **decisión de producto** —cambiar un flujo, agregar o quitar un
@@ -73,6 +115,8 @@ buena.
 - **Fuente:** ph-inspector-ux · AAAA-MM-DD
 - **Estado:** nuevo
 - **Archivos:** ruta/archivo:línea
+- **Método:** Heurística H# · Severidad NN/g # (frecuencia/impacto/persistencia) — o el paso del
+  recorrido cognitivo y cuál de las cuatro preguntas falla
 - **Descripción:** qué está mal, con evidencia concreta. Incluye cómo comprobaste la premisa.
 - **Hermanos revisados:** dónde buscaste la misma forma y qué encontraste
 - **Criterios de aceptación:** condiciones verificables de «hecho»

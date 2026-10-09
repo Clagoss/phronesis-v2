@@ -106,9 +106,9 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 | Agente | Qué hace | Cuándo corre |
 |---|---|---|
 | `ph-inspector-seguridad` | Control de acceso a datos, credenciales mal usadas, funciones de base de datos que quedaron ejecutables por el público, secretos, endpoints sin límite de frecuencia, IDOR, datos personales expuestos. | lunes |
-| `ph-inspector-seo` | Metadata por ruta, datos estructurados, canonical, coherencia entre sitemap y `noindex`, URLs inválidas que devuelven 500 en vez de 404, páginas vacías indexadas. | martes |
+| `ph-inspector-seo` | Metadata por ruta, datos estructurados, canonical, coherencia entre sitemap y `noindex`, URLs inválidas que devuelven 500 en vez de 404, páginas vacías indexadas. Su vara es la documentación de Google, no los blogs. | martes |
 | `ph-inspector-codigo` | Adherencia a tu arquitectura, duplicación recién nacida (el momento más barato de unificar), código muerto, tipos, restricciones del framework que el typecheck no ve. | miércoles |
-| `ph-inspector-ux` | Fricción en tu flujo principal, estados vacío/carga/error, deep-links que pierden el destino tras el login, confianza, microcopy. **Nunca decide producto**: eso te lo deja a ti. | jueves |
+| `ph-inspector-ux` | Fricción en tu flujo principal, estados vacío/carga/error, deep-links que pierden el destino tras el login, confianza, microcopy. Usa las heurísticas de Nielsen, el recorrido cognitivo y la severidad de NN/g. **Nunca decide producto**: eso te lo deja a ti. | jueves |
 | `ph-inspector-a11y` | WCAG 2.1 AA: contraste (también el del anillo de foco), foco que se pierde al cerrar un modal, controles solo de mouse, estados que solo se ven y no se anuncian. | viernes |
 | `ph-inspector-performance` | Core Web Vitals, bundle, imágenes, consultas N+1, la misma consulta repetida en un request, límites de CPU del runtime. | sábado |
 | `ph-inspector-negocio` | Mira lo que la gente hizo, no el código. Trabaja la serie de métricas, prohíbe porcentajes sobre menos de 30 casos y entrega **un** hallazgo, no un tablero. | durante una ventana de foco |

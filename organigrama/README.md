@@ -231,6 +231,8 @@ Phronesis v2) y qué tan importante es.
   como «este sitio está roto».
 - **En Avisia:** las alertas de «Error de servidor» de Search Console venían de un identificador mal
   formado que tiraba una excepción en vez de un 404.
+- **Su vara:** la documentación de Google, no los blogs de SEO. No reporta los mitos que Google
+  desmiente (meta keywords, largo mínimo, orden de encabezados) y trata las políticas de spam como P1.
 
 #### `ph-inspector-codigo` ⭐⭐⭐
 - **Valor:** atrapa la deuda en el momento más barato: el día que nace.
@@ -242,6 +244,9 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** mira tu producto como alguien que lo usa por primera vez.
 - **Sin él:** estados de error que dicen «algo salió mal», enlaces de correo que mandan al inicio en
   vez de a la página prometida.
+- **Su método:** las 10 heurísticas de Nielsen, un recorrido cognitivo por corrida y la escala de
+  severidad 0–4 de NN/g. Lo que requiere personas reales (card sorting, test de usabilidad) lo
+  propone como investigación, nunca lo simula.
 - **Ojo:** nunca decide producto. Lo que implica cambiar un flujo te lo deja como Issue.
 
 #### `ph-inspector-a11y` ⭐⭐

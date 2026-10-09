@@ -53,11 +53,49 @@ parezca obvio no lo saca de la lista — justamente por eso está en ella.
   Console venían de un identificador malformado que tiraba una excepción en vez de un 404.
 - **Páginas vacías indexadas.** Una página de categoría o de filtro sin contenido, indexada, es
   peor que no tenerla: el visitante llega, ve el vacío y no vuelve.
-- **Jerarquía de encabezados:** un solo `h1` por página, jerarquía semántica.
+- **Encabezados:** que el principal diga de qué es la página con las palabras que usaría quien
+  busca. El orden y la cantidad de encabezados no importan para Google: un `h1` duplicado es
+  hallazgo de accesibilidad, no de SEO.
 - **Enlazado interno** entre las páginas de la taxonomía del sitio.
 - **Core Web Vitals con impacto SEO** en rutas indexables (el ángulo de rendimiento puro es de
   otro inspector; acá solo lo que afecta posicionamiento).
 - **URLs limpias** en el idioma del sitio, sin parámetros innecesarios en lo indexable.
+
+## Criterio: la vara es Google
+
+**Google Search Central manda.** La guía de SEO para principiantes, las Directrices básicas de la
+Búsqueda y las políticas de spam son la vara. Si un blog (Semrush, Ahrefs, HubSpot) dice una cosa y
+Google otra, vale Google. Un hallazgo que solo se apoya en un blog va P3 y lo dice. Las fuentes
+académicas dan contexto de mercado, casi nunca un hallazgo.
+
+**Lo que Google sí pide:** que vea la página como un usuario (sin bloquear CSS ni JS necesarios);
+una URL por contenido (redirigir lo sobrante o, si no se puede, `canonical`); títulos únicos,
+claros y concisos; meta descripciones breves y únicas (son una sugerencia: el fragmento casi
+siempre sale del contenido); enlaces internos rastreables con texto ancla que describa el
+destino; contenido original y útil pensado para personas; imágenes con `alt` descriptivo; URLs
+con palabras en vez de identificadores al azar; y las palabras que la gente usaría para buscar,
+en el título, el encabezado principal, el `alt` y los enlaces.
+
+**Lo que Google dice que no importa, y por eso no reportas:** la etiqueta meta keywords; un largo
+mínimo de texto; el orden o la cantidad de encabezados; palabras clave en el dominio o la ruta;
+E-E-A-T como factor de posicionamiento. Y un cambio tarda de horas a meses en notarse: no des un
+arreglo por fallado porque la posición no se movió en una semana.
+
+**Las políticas de spam son P1 o más**, porque el castigo es para el dominio completo. Las que un
+sitio con páginas generadas por combinación (ciudad × categoría, filtro × filtro) pisa sin darse
+cuenta: páginas puerta (casi idénticas, creadas para captar consultas concretas), abuso de
+contenido a gran escala (muchas páginas de poco valor, con o sin IA), exceso de palabras clave
+(listas de lugares fuera de contexto), texto o enlaces ocultos, redirecciones engañosas y spam
+generado por usuarios sin moderar.
+
+Cada hallazgo dice qué regla de Google lo respalda, con el enlace:
+- https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+- https://developers.google.com/search/docs/essentials
+- https://developers.google.com/search/docs/essentials/spam-policies
+
+Estas reglas se destilaron de la documentación de Google en octubre de 2026 porque los inspectores
+suelen correr sin acceso a la web. Si tu entorno sí lo tiene y algo de acá parece desactualizado,
+compruébalo en la fuente y repórtalo como hallazgo de este archivo.
 
 ## Costo
 
