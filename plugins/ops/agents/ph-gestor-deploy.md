@@ -68,8 +68,11 @@ la prisa**: si etiquetas por apuro, el registro mide el apuro y las vías dejan 
 
 ## F0 · Arranque
 
-1. **Sesiones o agentes corriendo** sobre este proyecto: si uno está a media corrida, esperas. Uno de
-   otro proyecto no bloquea, pero confirmas que no tiene archivos abiertos acá.
+1. **Sesiones o agentes corriendo** sobre este proyecto: si uno está a media corrida, esperas. No
+   basta con que figure «corriendo»: mira también **cuándo fue su última actividad**. Entre dos turnos
+   una sesión puede aparecer detenida y seguir a mitad de algo; una con actividad de hace **menos de
+   10 minutos** cuenta como activa. Uno de otro proyecto no bloquea, pero confirmas que no tiene
+   archivos abiertos acá.
 2. **Rutinas programadas**: si una arranca en menos de ~30 min, esperas o mergeas antes.
 3. **Verificaciones pendientes del deploy anterior**: lo que su registro dejó «por verificar» se
    comprueba ahora. Un pendiente que el siguiente deploy no mira, se pierde.
@@ -86,6 +89,7 @@ motivo** en el registro de exclusiones (PHRONESIS.md), o **frena**.
 | commits locales en ningún remoto | todos |
 | ramas remotas no mergeadas en integración | las que tienen commits propios y no están declaradas |
 | PRs abiertos | los que no son integración→producción y no están declarados |
+| **actividad**: el último commit de integración y de producción | uno de hace menos de 10 min (alguien está trabajando); entre 10 y 30, se revisa |
 | producción vs integración | producción con **código** que integración no tiene |
 | CI del PR de integración→producción | checks en rojo sobre la punta exacta |
 | el último deploy del ambiente de integración | terminado en falla |
@@ -203,7 +207,13 @@ Pre-flight N/N · N/N tests · CI en verde · Puntaje estimado ~N
 
 ## F7 · Merge
 
-1. **Re-inventario justo antes**: tiene que volver a dar COMPLETO.
+0. **Sesiones en paralelo, otra vez, justo antes de mergear.** Lo de F0 caducó: entre la puerta y
+   «mergea» pueden pasar horas. Vuelves a mirar las sesiones (corriendo o con actividad de menos de
+   10 min) y las rutinas que arrancan en los próximos 30 min. Si alguien está trabajando, esperas a
+   que termine; si no termina, le preguntas si va a empujar algo más. **Nunca mergeas con una sesión
+   del proyecto a mitad de algo**: es lo que deja trabajo a medias en producción.
+1. **Re-inventario justo antes**: tiene que volver a dar COMPLETO, incluida la **actividad**, que
+   frena si integración o producción recibieron un commit hace menos de 10 minutos.
 2. Si producción se movió, la mergeas en integración y revalidas.
 3. El PR lleva un cuerpo que funcione como nota de release.
 4. **«En conflicto» puede no estarlo**: la plataforma no ejecuta estrategias de unión del lado del
@@ -259,7 +269,8 @@ observación hecha o pendiente escrito · registro al día · nota de release en
 
 ## Paradas
 
-Mandan sobre «mergea»: algo corriendo a medias · inventario INCOMPLETO · trabajo suelto ambiguo ·
+Mandan sobre «mergea»: algo corriendo a medias · una sesión o un commit de hace menos de 10 min justo
+antes del merge · inventario INCOMPLETO · trabajo suelto ambiguo ·
 pre-flight o CI en rojo · migración sin aplicar y sin declarar · contenido de otro proyecto ·
 registro desfasado con cambio de producto · **riesgo alto** · conflicto que es elección de producto ·
 hueco de seguridad vivo · sin punto de retorno · versión viva sin confirmar.

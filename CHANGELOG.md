@@ -16,6 +16,37 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.2.0 — 2026-10-09
+
+**El gestor de deploy vuelve a mirar quién está trabajando justo antes de mergear.** Salió de un
+deploy de Avisia que arrancó con un commit de hace dos minutos, hecho por una sesión que ya figuraba
+como detenida.
+
+- **`ph-gestor-deploy`**
+  - En F0 ya no basta con que una sesión figure «corriendo»: también cuenta la que tuvo actividad
+    hace menos de 10 minutos, porque entre dos turnos una sesión aparece detenida y sigue a mitad
+    de algo.
+  - F7 gana un paso 0: antes de mergear vuelve a revisar sesiones y rutinas. Lo que se miró en F0
+    caduca entre la puerta y el «mergea», y pueden pasar horas.
+  - Una parada nueva: una sesión o un commit de hace menos de 10 minutos justo antes del merge.
+- **El inventario de deploy** tiene una sección nueva, «Actividad». Un commit en integración o en
+  producción de hace menos de 10 minutos frena; entre 10 y 30, queda para revisar en la puerta. Los
+  dos umbrales se configuran en `deploy.json` (`actividad`).
+- **`rutas_no_producto`** en `deploy.json`: archivos que viven dentro de las rutas de código pero no
+  viajan a producción, como un registro de excepciones que solo lee el pre-flight. Contarlos como
+  código hacía frenar el inventario por nada.
+- **`ph-director-arte` y `ph-jefe-copy` leen lo que rindió antes de dictaminar.** En Avisia nadie
+  medía, y cien piezas seguidas salieron con dos «me gusta» en total después de que el checklist las
+  aprobara todas. Los dos leen ahora los resultados de lo publicado (guardados y compartidos pesan
+  más que los «me gusta») y tratan como ruido las diferencias entre alcances de un dígito.
+  `PHRONESIS.md` gana el campo «Resultados de lo publicado» en la sección 12.
+- **El organigrama mide con tres cifras.** Corridas (cuántas veces trabajó cada agente en Avisia),
+  revisiones (cuántas veces se corrigió su instrucción, sin contar el commit que la crea) y pedidas
+  por el dueño (las correcciones que pidió a mano). Explica también por qué un agente con pocas
+  revisiones puede estar aprendiendo: lo que sirve a varios va a las lecciones compartidas, no a su
+  archivo. Las cifras de Avisia están al 9 de octubre en el organigrama y en el README.
+- Se borran tres imágenes de trabajo de la marca que habían quedado en `.marca-tmp/`.
+
 ## 2.1.0 — 2026-10-08
 
 **Los inspectores de SEO y de UX trabajan con método y con fuentes que mandan.** Las dos ideas

@@ -51,6 +51,13 @@ Rechaza y reescribe si el texto:
 6. **Se ríe de alguien.** El humor se ríe *con* la gente, nunca de lugares, clases sociales ni
    personas. Si el chiste necesita explicación, fuera.
 
+## Lo que rindió
+
+Antes de revisar, lee los **resultados de lo publicado** que declara `PHRONESIS.md`. Guardados y
+compartidos dicen qué texto sirvió de verdad; el «me gusta» es barato. Si una pieza tuvo interacción,
+mira su texto y pregúntate qué hizo distinto. Si ninguna tuvo, no copies el tono de la «mejor» por
+tener 5 de alcance en vez de 2: eso es ruido.
+
 ## Prueba final
 
 Léelo en voz alta. Si tropiezas en la primera lectura, o si podrías pegarlo en la cuenta de cualquier

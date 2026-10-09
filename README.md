@@ -1,10 +1,10 @@
-# Phronesis v2.1
+# Phronesis v2.2
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-**Versión 2.1.0** (2026-10-08) · [qué cambió en cada versión](CHANGELOG.md)
+**Versión 2.2.0** (2026-10-09) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
@@ -41,11 +41,11 @@ cada regla de este repo se pagó ahí primero. En Avisia:
 
 | | |
 |---|---|
-| Hallazgos de los inspectores | **141** |
-| Items del backlog resueltos | **160 de 170** |
-| Despliegues registrados y verificados | **48** |
+| Hallazgos de los inspectores | **161** |
+| Items del backlog resueltos | **181 de 196** |
+| Despliegues registrados y verificados | **53** |
 | Lecciones generalizadas en [LECCIONES.md](LECCIONES.md) | **27** |
-| Reescrituras de la instrucción del agente de deploy | **18** |
+| Reescrituras de la instrucción del agente de deploy | **19** |
 
 Ese último número importa: un agente no aprende solo, lo único que persiste es su archivo de
 instrucciones. **Cada reescritura es un error real que quedó escrito.** Al pasar a Phronesis v2 se
@@ -122,7 +122,7 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 
 | Agente | Qué hace | Cuándo corre |
 |---|---|---|
-| `ph-gestor-deploy` | Ejecuta el **protocolo de deploy en 12 fases**: un inventario que falla si algo queda fuera del merge, pre-flight, riesgo y punto de retorno fijados antes, revisión de casos hermanos, verificación visual, una **puerta que espera tu «mergea»**, verificación en producción, observación, registro y nota de release. | cada deploy, con `/ph-deploy` |
+| `ph-gestor-deploy` | Ejecuta el **protocolo de deploy en 12 fases**: un inventario que falla si algo queda fuera del merge, pre-flight, riesgo y punto de retorno fijados antes, revisión de casos hermanos, verificación visual, una **puerta que espera tu «mergea»**, una última mirada a quién más está trabajando antes de mergear, verificación en producción, observación, registro y nota de release. | cada deploy, con `/ph-deploy` |
 | `ph-verificador-deploy` | El subagente de la fase de verificación: prueba que la versión correcta está viva comparando el commit servido, distingue tu falla de la del proveedor y verifica en vivo un cambio concreto. No cree en el verde del CI. | fase F8 de cada deploy |
 | `ph-triage-correo` | Dice qué correo exige acción, de quién y para cuándo; calcula plazos legales; detecta lo que debió llegar y no llegó, y los filtros que esconden correos. Solo lectura. | cada noche |
 | `ph-vigilante-rutinas` | Distingue «no arrancó», «arrancó y no terminó» y «corrió sin entregar nada». Vigila el entregable, no solo el latido. | cada día |

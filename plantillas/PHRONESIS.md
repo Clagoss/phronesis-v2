@@ -148,6 +148,8 @@ Agrega las propias de tu proyecto (temas legales, categorías sensibles, datos d
 - **Design system / tokens:**
 - **Dónde quedan las tandas:**
 - **Redes y formatos:** (feed, historias, reels)
+- **Resultados de lo publicado:** ej. `docs/redes/resultados.md` (alcance, guardados y compartidos por
+  pieza; lo genera un script que lee la API de la red). Sin esto, los revisores aprueban a ciegas.
 
 ## 13. Operación (opcional — solo si usas el plugin `ops`)
 

@@ -47,6 +47,12 @@ const INTEG = cfg.rama_integracion ?? "staging";
 const SALUD = process.env.PH_HEALTH_URL || cfg.url_salud || null;
 const CAMPO_COMMIT = cfg.campo_commit ?? "commit";
 const RUTAS_CODIGO = cfg.rutas_codigo ?? ["src/"];
+// Archivos que viven dentro de las rutas de código pero no viajan a producción (un registro de
+// decisiones que lee el pre-flight, por ejemplo). Contarlos como código hace frenar por nada.
+const NO_PRODUCTO = cfg.rutas_no_producto ?? [];
+const esCodigo = (f) => RUTAS_CODIGO.some((r) => f.startsWith(r)) && !NO_PRODUCTO.some((r) => f.startsWith(r));
+const SILENCIO_MIN = cfg.actividad?.frena_min ?? 10;
+const AVISO_MIN = cfg.actividad?.revisar_min ?? 30;
 const RE_MIGRACION = cfg.patron_migraciones ? new RegExp(cfg.patron_migraciones) : null;
 const SENSIBLES = (cfg.rutas_sensibles ?? []).map((s) => ({ nivel: s.nivel, area: s.area, re: new RegExp(s.patron, s.flags ?? "") }));
 const RE_AJENOS = cfg.proyectos_ajenos?.length ? new RegExp(cfg.proyectos_ajenos.join("|"), "i") : null;
@@ -84,9 +90,26 @@ const ramas = { soloProd, soloInteg, integContieneProd };
 if (!faltan.length && !integContieneProd) {
   // Normal entre deploys si hay rutinas que empujan a producción. Se resuelve mergeando producción
   // en integración (F7). Solo frena si producción trae CÓDIGO que integración no tiene.
-  const codigoSoloEnProd = git("diff", "--stat", `origin/${INTEG}...origin/${PROD}`, "--", ...RUTAS_CODIGO);
+  const codigoSoloEnProd = git("diff", "--stat", `origin/${INTEG}...origin/${PROD}`, "--", ...RUTAS_CODIGO, ...NO_PRODUCTO.map((r) => `:(exclude)${r}`));
   if (codigoSoloEnProd) frena("ramas", `${PROD} tiene código que ${INTEG} no tiene`, codigoSoloEnProd.split("\n").pop());
   else info("ramas", `${PROD} tiene ${soloProd} commit(s) fuera del código que ${INTEG} no tiene — se bajan en F7`);
+}
+
+// ── A2. ¿Alguien está trabajando ahora? ──────────────────────────────────────────────────
+// Las sesiones y los agentes no se ven desde un script, pero su trabajo sí: un commit reciente en
+// integración o en producción es la huella de alguien a mitad de algo, aunque su sesión ya figure
+// detenida. Mergear en ese momento deja trabajo a medias en producción, o un merge distinto del que
+// se verificó. En el proyecto de origen, un deploy arrancó con un commit de hace 2 minutos y la
+// sesión que lo hizo ya aparecía como detenida.
+const actividad = {};
+for (const rama of faltan.length ? [] : [INTEG, PROD]) {
+  const t = Number(git("log", "-1", "--format=%ct", `origin/${rama}`) ?? 0);
+  if (!t) continue;
+  const min = Math.round((Date.now() / 1000 - t) / 60);
+  const que = git("log", "-1", "--format=%h %s", `origin/${rama}`) ?? "";
+  actividad[rama] = min;
+  if (min < SILENCIO_MIN) frena("actividad", `${rama} recibió un commit hace ${min} min: alguien está trabajando`, `${que.slice(0, 90)} · espera ${SILENCIO_MIN} min sin commits y vuelve a correr el inventario`);
+  else if (min < AVISO_MIN) revisar("actividad", `${rama} recibió un commit hace ${min} min`, `${que.slice(0, 90)} · confirma en F0/F7 que esa sesión terminó`);
 }
 
 // ── B. Worktrees: sueltos y sin pushear ────────────────────────────────────────────────
@@ -215,7 +238,7 @@ const esperanMerge = [];
 const commits = lineas(git("log", "--no-merges", "--format=%h%x09%ct%x09%s", `origin/${PROD}..origin/${INTEG}`))
   .map((l) => { const [h, t, ...s] = l.split("\t"); return { h, t: Number(t), s: s.join("\t") }; });
 const archivos = lineas(git("diff", "--name-only", `origin/${PROD}...origin/${INTEG}`));
-const codigo = archivos.filter((f) => RUTAS_CODIGO.some((r) => f.startsWith(r)));
+const codigo = archivos.filter(esCodigo);
 const migraciones = RE_MIGRACION ? archivos.filter((f) => RE_MIGRACION.test(f)) : [];
 if (!RE_MIGRACION) info("migraciones", "sin patron_migraciones configurado: no se detectan migraciones en el lote");
 if (!SENSIBLES.length) revisar("riesgo", "sin rutas_sensibles configuradas: el riesgo del lote se calcula solo como nulo o bajo");
@@ -312,6 +335,7 @@ console.log(`Lote        ${commits.length} commits · ${codigo.length} archivos 
 if (leadTimeHoras !== null) console.log(`Antigüedad  el commit más viejo del lote tiene ${leadTimeHoras < 48 ? leadTimeHoras + " h" : Math.round(leadTimeHoras / 24) + " días"}`);
 console.log(`Ramas       ${faltan.length ? `falta ${faltan.map((r) => `origin/${r}`).join(", ")}` : `${PROD}...${INTEG} = ${soloProd} ${soloInteg} · ${INTEG} contiene ${PROD}: ${integContieneProd ? "sí" : "no"}`}`);
 console.log(`Worktrees   ${worktrees.map((w) => `${w.ruta.replace(/^.*\//, "")}[${w.rama ?? "detached"}] ${w.perdido ? "NO ESTÁ EN DISCO" : `${w.sueltos} sueltos`}`).join(" · ")}`);
+console.log(`Actividad   último commit: ${INTEG} hace ${actividad[INTEG] ?? "?"} min · ${PROD} hace ${actividad[PROD] ?? "?"} min`);
 console.log(`Retorno     vivo ${retorno.shaVivo ?? "?"} · despliegue ${retorno.idDespliegue ?? "?"}`);
 if (revisionProtocolo && !revisionProtocolo.toca) console.log(`Protocolo   v${revisionProtocolo.version} · revisión en ${revisionProtocolo.faltan} deploy(s) o el ${revisionProtocolo.revisarEl}`);
 if (Object.keys(tocadas).length) {

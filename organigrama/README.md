@@ -292,8 +292,8 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** que siempre sepas qué está en producción, cómo llegó ahí y si es seguro poner más encima.
 - **Sin él:** trabajo terminado que lleva días sin llegar a ninguna rama, migraciones que salen antes
   que el código, un registro que no coincide con lo que está vivo.
-- **En Avisia:** el agente que más aprendió: su instrucción se reescribió 18 veces, más que los siete
-  inspectores juntos, y de esas lecciones salió el protocolo de 12 fases. Lleva 48 despliegues
+- **En Avisia:** el agente que más aprendió: su instrucción se reescribió 19 veces, más que los siete
+  inspectores juntos, y de esas lecciones salió el protocolo de 12 fases. Lleva 53 despliegues
   registrados. Su inventario existe porque un lote de trabajo terminado quedó fuera del repo y dejó
   mudo el feed de Instagram cuatro días.
 

@@ -39,6 +39,15 @@ Para cada pieza dictamina **APROBADA** o **CORREGIR**, con una instrucción conc
 4. **Una sola diagramación por pieza.** Mezclar un rótulo alineado a la izquierda con un elemento
    centrado se lee como accidente.
 
+## Lo que rindió
+
+Antes de dictaminar, lee los **resultados de lo publicado** que declara `PHRONESIS.md`. Si no hay,
+dilo en tu salida: estás aprobando a ciegas. En el proyecto de origen nadie medía, y cien piezas
+seguidas salieron con dos «me gusta» en total después de que este mismo checklist las aprobara todas.
+La medición no reemplaza el criterio, lo corrige: una plantilla que lleva cuatro semanas con el
+alcance mediano más bajo entra al dictamen de rotación aunque se vea bien. Y con alcances de un
+dígito, las diferencias entre plantillas son ruido, no señal.
+
 ## Evolución del estilo
 
 - **En cada tanda**, propone al menos **una** variación menor deliberada —un fondo nuevo dentro de la

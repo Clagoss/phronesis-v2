@@ -5,6 +5,7 @@
   "url_salud": "https://tu-dominio.cl/api/health",
   "campo_commit": "commit",
   "rutas_codigo": ["src/", "app/", "packages/"],
+  "rutas_no_producto": [],
   "patron_migraciones": "^(db|supabase|prisma)/migrations/.+",
   "workflow_integracion": "deploy-staging.yml",
   "workflow_produccion": "deploy-prod.yml",
@@ -15,6 +16,7 @@
   "revision_protocolo": "docs/ops/protocolo-revision.json",
   "marcador_ultimo_deploy": "docs/ops/ultimo-deploy.json",
   "proyectos_ajenos": [],
+  "actividad": { "frena_min": 10, "revisar_min": 30 },
   "rutas_sensibles": [
     { "nivel": "alto", "area": "migraciones", "patron": "/migrations/" },
     { "nivel": "alto", "area": "pagos", "patron": "(/pagos?/|payment|checkout|billing|suscripcion)", "flags": "i" },
@@ -29,6 +31,8 @@
   "_notas": {
     "patron_id_despliegue": "Expresión regular con un grupo que capture el identificador del despliegue en el log del workflow de producción, para poder volver exactamente a esa versión. Ejemplo para Cloudflare Workers: \"Current Version ID:\\\\s*([0-9a-f-]{36})\".",
     "rutas_sensibles": "La primera regla que calza gana: ordénalas de más a menos riesgo. Las de nivel alto deberían coincidir con las restricciones duras de PHRONESIS.md.",
+    "rutas_no_producto": "Archivos o carpetas dentro de rutas_codigo que no viajan a producción (por ejemplo, un registro de excepciones de migraciones que solo lee el pre-flight). Quedan fuera del chequeo de código y del lote.",
+    "actividad": "Minutos desde el último commit en integración o producción. Menos de frena_min: alguien está trabajando y el inventario frena. Entre frena_min y revisar_min: se revisa en la puerta.",
     "proyectos_ajenos": "Patrones de ruta de otros proyectos que trabajas en paralelo y que jamás deben entrar a este merge."
   }
 }
