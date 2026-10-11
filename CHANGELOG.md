@@ -16,10 +16,16 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.3.1 — 2026-10-11
+
+- El repo deja de nombrar al proyecto donde nacieron los agentes. Las cifras, los casos y la historia
+  de cada agente se quedan; ahora hablan del «proyecto de origen», un marketplace en producción en
+  Chile. El organigrama y su imagen, el README y el registro de cambios, al día.
+
 ## 2.3.0 — 2026-10-09
 
 **El protocolo de deploy v3: menos ceremonia donde nunca encontró nada.** Sale de revisar la v2 con
-los datos de cinco deploys de Avisia, como pide el propio protocolo, y de las cuatro propuestas que
+los datos de cinco despliegues del proyecto de origen, como pide el propio protocolo, y de las cuatro propuestas que
 aprobó su dueño.
 
 - **Riesgo calculado y riesgo efectivo.** En la v2, los cinco lotes salieron ALTO, y una etiqueta que
@@ -31,7 +37,7 @@ aprobó su dueño.
 - **`orden-migraciones.mjs`, nuevo.** Lee si una migración va al merge o después desde donde lo
   escribió quien la hizo: el encabezado del archivo o una deuda abierta que la nombre. Una línea que
   nombra otra migración no cuenta, ni una mención de que ya está aplicada. Probado contra las 136
-  migraciones de Avisia: reconoce las mismas cinco que su versión original.
+  migraciones del proyecto de origen: reconoce las mismas cinco que su versión original.
 - **F9 liviana por defecto.** En cinco de cinco deploys la observación no encontró nada y era la
   espera más larga. Ahora es una segunda pasada a los ~10 minutos que no frena el cierre; solo es
   completa, esperando la próxima corrida de las tareas programadas, si el lote las toca
@@ -48,7 +54,7 @@ aprobó su dueño.
 ## 2.2.0 — 2026-10-09
 
 **El gestor de deploy vuelve a mirar quién está trabajando justo antes de mergear.** Salió de un
-deploy de Avisia que arrancó con un commit de hace dos minutos, hecho por una sesión que ya figuraba
+deploy del proyecto de origen que arrancó con un commit de hace dos minutos, hecho por una sesión que ya figuraba
 como detenida.
 
 - **`ph-gestor-deploy`**
@@ -64,22 +70,22 @@ como detenida.
 - **`rutas_no_producto`** en `deploy.json`: archivos que viven dentro de las rutas de código pero no
   viajan a producción, como un registro de excepciones que solo lee el pre-flight. Contarlos como
   código hacía frenar el inventario por nada.
-- **`ph-director-arte` y `ph-jefe-copy` leen lo que rindió antes de dictaminar.** En Avisia nadie
+- **`ph-director-arte` y `ph-jefe-copy` leen lo que rindió antes de dictaminar.** En el proyecto de origen nadie
   medía, y cien piezas seguidas salieron con dos «me gusta» en total después de que el checklist las
   aprobara todas. Los dos leen ahora los resultados de lo publicado (guardados y compartidos pesan
   más que los «me gusta») y tratan como ruido las diferencias entre alcances de un dígito.
   `PHRONESIS.md` gana el campo «Resultados de lo publicado» en la sección 12.
-- **El organigrama mide con tres cifras.** Corridas (cuántas veces trabajó cada agente en Avisia),
+- **El organigrama mide con tres cifras.** Corridas (cuántas veces trabajó cada agente en el proyecto de origen),
   revisiones (cuántas veces se corrigió su instrucción, sin contar el commit que la crea) y pedidas
   por el dueño (las correcciones que pidió a mano). Explica también por qué un agente con pocas
   revisiones puede estar aprendiendo: lo que sirve a varios va a las lecciones compartidas, no a su
-  archivo. Las cifras de Avisia están al 9 de octubre en el organigrama y en el README.
+  archivo. Las cifras del proyecto de origen están al 9 de octubre en el organigrama y en el README.
 - Se borran tres imágenes de trabajo de la marca que habían quedado en `.marca-tmp/`.
 
 ## 2.1.0 — 2026-10-08
 
 **Los inspectores de SEO y de UX trabajan con método y con fuentes que mandan.** Las dos ideas
-salieron de Avisia, anotadas por su dueño en el organigrama de agentes.
+salieron del proyecto de origen, anotadas por su dueño en el organigrama de agentes.
 
 - **`ph-inspector-seo` mide con la vara de Google.** Trae destilado lo que pide la documentación
   oficial (guía para principiantes, Directrices básicas de la Búsqueda, políticas de spam). Si un
@@ -105,7 +111,7 @@ salieron de Avisia, anotadas por su dueño en el organigrama de agentes.
 ## 2.0.0 — 2026-10-01
 
 **Primera versión pública.** El loop de mejora continua completo, destilado de meses operando
-[Avisia](https://avisia.cl) en producción.
+un marketplace en producción.
 
 - 19 agentes en 4 plugins (mejora, ops, growth, contenido) y los comandos `/ph-iniciar`,
   `/ph-ciclo`, `/ph-inspeccionar`, `/ph-resolver`, `/ph-memoria`, `/ph-usabilidad` y `/ph-deploy`.

@@ -210,7 +210,7 @@ todo quede en `git`, que se pueda revisar y que se pueda revertir.
 
 ## 5. El valor de cada agente
 
-Para cada agente: qué valor da, qué pasa si no está, un caso real de Avisia (el proyecto donde nació
+Para cada agente: qué valor da, qué pasa si no está, un caso real del proyecto donde nació
 Phronesis v2) y qué tan importante es.
 
 **Importancia:** ⭐⭐⭐ imprescindible · ⭐⭐ muy recomendado · ⭐ según tu proyecto.
@@ -221,7 +221,7 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** encuentra lo que nadie nota porque no da error: datos expuestos, permisos de más,
   funciones que cualquiera puede llamar.
 - **Sin él:** los problemas de seguridad se descubren cuando alguien los explota.
-- **En Avisia:** los usuarios con sesión podían leer columnas con datos personales que el público no
+- **En producción:** los usuarios con sesión podían leer columnas con datos personales que el público no
   veía. La aplicación funcionaba perfecto, y ese era el problema: el error es silencioso por
   definición. Hoy lo vigila un chequeo automático antes de cada deploy.
 
@@ -229,7 +229,7 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** que Google encuentre y entienda tu sitio sin instrucciones contradictorias.
 - **Sin él:** páginas que se piden indexar y a la vez se marcan `noindex`, errores 500 que Google lee
   como «este sitio está roto».
-- **En Avisia:** las alertas de «Error de servidor» de Search Console venían de un identificador mal
+- **En producción:** las alertas de «Error de servidor» de Search Console venían de un identificador mal
   formado que tiraba una excepción en vez de un 404.
 - **Su vara:** la documentación de Google, no los blogs de SEO. No reporta los mitos que Google
   desmiente (meta keywords, largo mínimo, orden de encabezados) y trata las políticas de spam como P1.
@@ -237,7 +237,7 @@ Phronesis v2) y qué tan importante es.
 #### `ph-inspector-codigo` ⭐⭐⭐
 - **Valor:** atrapa la deuda en el momento más barato: el día que nace.
 - **Sin él:** la duplicación se ramifica y cada copia arrastra sus propios bugs.
-- **En Avisia:** un `export const` en un archivo de acciones del servidor dejó once acciones
+- **En producción:** un `export const` en un archivo de acciones del servidor dejó once acciones
   devolviendo error durante 50 minutos. El typecheck no lo vio; ahora es parte de su remit.
 
 #### `ph-inspector-ux` ⭐⭐
@@ -252,19 +252,19 @@ Phronesis v2) y qué tan importante es.
 #### `ph-inspector-a11y` ⭐⭐
 - **Valor:** que tu producto funcione con teclado y con lector de pantalla.
 - **Sin él:** foco invisible, botones que solo responden al mouse, errores que solo se ven en rojo.
-- **En Avisia:** el anillo de foco tenía contraste 1,76:1 y 22 archivos lo apagaban. Fue el inspector
+- **En producción:** el anillo de foco tenía contraste 1,76:1 y 22 archivos lo apagaban. Fue el inspector
   con más hallazgos de su grupo: 20.
 
 #### `ph-inspector-performance` ⭐⭐
 - **Valor:** que el sitio cargue rápido y que no pagues de más en infraestructura.
 - **Sin él:** consultas repetidas en cada página, imágenes enormes, el runtime cortando por tiempo.
-- **En Avisia:** la sesión del usuario se pedía dos veces en el mismo render porque dos componentes la
+- **En producción:** la sesión del usuario se pedía dos veces en el mismo render porque dos componentes la
   necesitaban por separado.
 
 #### `ph-inspector-negocio` ⭐⭐
 - **Valor:** el único que mira **lo que la gente hizo** en vez del código.
 - **Sin él:** un producto técnicamente impecable que nadie usa, y nadie que lo diga con datos.
-- **En Avisia:** el inspector más productivo (42 hallazgos). Su regla de oro salió de ahí: nada de
+- **En producción:** el inspector más productivo (42 hallazgos). Su regla de oro salió de ahí: nada de
   porcentajes con cuatro usuarios, y nunca contar como tracción el contenido propio, ni siquiera los
   avisos del propio dueño.
 
@@ -272,19 +272,19 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** la garantía de que el loop automático no rompe nada. Es lo que permite dejarlo correr
   solo.
 - **Sin él:** no deberías dejar que ningún agente toque código sin supervisión.
-- **En Avisia:** valida cada corrida desde el primer día. Su regla: ante la duda, revierte.
+- **En producción:** valida cada corrida desde el primer día. Su regla: ante la duda, revierte.
 
 #### `ph-curador-memoria` ⭐⭐⭐
 - **Valor:** que el equipo aprenda en vez de repetir. Convierte errores en reglas, y reglas
   repetidas en una sola.
 - **Sin él:** el archivo de lecciones crece hasta que nadie lo lee, y el proyecto redescubre lo mismo.
-- **En Avisia:** existió semanas sin que nadie lo invocara. Las lecciones llegaron a 28, siete de las
+- **En producción:** existió semanas sin que nadie lo invocara. Las lecciones llegaron a 28, siete de las
   cuales decían lo mismo con distinto disfraz. Al consolidarlas bajaron a 16.
 
 #### `ph-sintetizador-usabilidad` ⭐
 - **Valor:** convierte notas de un test con usuarios en trabajo concreto, sin inventar nada.
 - **Sin él:** las notas quedan en un documento que nadie vuelve a abrir.
-- **Honestidad:** en Avisia todavía no se ha usado en un test real.
+- **Honestidad:** en el proyecto de origen todavía no se ha usado en un test real.
 
 ### Plugin `ops`
 
@@ -292,7 +292,7 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** que siempre sepas qué está en producción, cómo llegó ahí y si es seguro poner más encima.
 - **Sin él:** trabajo terminado que lleva días sin llegar a ninguna rama, migraciones que salen antes
   que el código, un registro que no coincide con lo que está vivo.
-- **En Avisia:** el agente que más aprendió: su instrucción se reescribió 19 veces, más que los siete
+- **En producción:** el agente que más aprendió: su instrucción se reescribió 19 veces, más que los siete
   inspectores juntos, y de esas lecciones salió el protocolo de 12 fases. Lleva 53 despliegues
   registrados. Su inventario existe porque un lote de trabajo terminado quedó fuera del repo y dejó
   mudo el feed de Instagram cuatro días.
@@ -301,19 +301,19 @@ Phronesis v2) y qué tan importante es.
 - **Valor:** la fase F8 del protocolo, en detalle: prueba que tu código está vivo. No cree en el verde
   del CI.
 - **Sin él:** te enteras horas después de que producción sigue sirviendo la versión anterior.
-- **En Avisia:** un incidente del proveedor de CI mató un deploy justo después de aprobarlo.
+- **En producción:** un incidente del proveedor de CI mató un deploy justo después de aprobarlo.
   Producción siguió con el código viejo durante horas; el sitio respondía perfecto.
 
 #### `ph-triage-correo` ⭐⭐
 - **Valor:** de toda tu bandeja, lo que exige acción hoy, con borrador de respuesta.
 - **Sin él:** un plazo legal que corre sin que lo veas, una persona real que escribió y quedó en spam.
-- **En Avisia:** descubrió que correos importantes llegaban archivados y leídos desde el primer
+- **En producción:** descubrió que correos importantes llegaban archivados y leídos desde el primer
   segundo: un filtro antiguo combinaba las dos acciones.
 
 #### `ph-vigilante-rutinas` ⭐⭐ (si tienes automatizaciones)
 - **Valor:** distingue «no corrió», «arrancó y murió a la mitad» y «corrió sin entregar nada».
 - **Sin él:** te enteras de que una rutina lleva días caída cuando preguntas por qué no hay nada nuevo.
-- **En Avisia:** el computador entraba en reposo y mataba las rutinas a media corrida. Desde afuera
+- **En producción:** el computador entraba en reposo y mataba las rutinas a media corrida. Desde afuera
   parecía que habían corrido.
 
 ### Plugin `growth`
@@ -321,20 +321,20 @@ Phronesis v2) y qué tan importante es.
 #### `ph-prospector` ⭐
 - **Valor:** pocos prospectos, verificados y de fuentes públicas.
 - **Sin él:** listas compradas, correos inventados y un dominio quemado.
-- **En Avisia:** marcar una casilla como válida solo porque el dominio recibe correo hizo rebotar 3 de
+- **En producción:** marcar una casilla como válida solo porque el dominio recibe correo hizo rebotar 3 de
   15 envíos y pausó el canal. Desde entonces, eso solo lo marca el verificador de casillas.
 
 #### `ph-copywriter` ⭐
 - **Valor:** correos que suenan a una persona escribiéndole a otra.
 - **Sin él:** texto que delata a la IA y que, peor, ofende.
-- **En Avisia:** un correo calificó a un negocio con décadas de historia como «tienda de barrio». La
+- **En producción:** un correo calificó a un negocio con décadas de historia como «tienda de barrio». La
   única respuesta de esa tanda fue para corregirlo. De ahí su regla de oro: nunca describirle su
   negocio al destinatario.
 
 #### `ph-estratega` ⭐
 - **Valor:** que el canal deje de gastar esfuerzo donde no responde, con umbrales que disparan solos.
 - **Sin él:** decenas de correos a un rubro que nunca contesta.
-- **En Avisia:** su primera versión dejó un hallazgo en dos meses mientras dos rubros acumulaban 47
+- **En producción:** su primera versión dejó un hallazgo en dos meses mientras dos rubros acumulaban 47
   contactos sin una respuesta. Se reescribió con condiciones en vez de metas.
 
 ### Plugin `contenido`
@@ -342,13 +342,13 @@ Phronesis v2) y qué tan importante es.
 #### `ph-director-arte` ⭐
 - **Valor:** coherencia visual y piezas que comunican algo.
 - **Sin él:** historias que son solo un rótulo, botones dibujados que la persona toca y no hacen nada.
-- **En Avisia:** se publicó una historia que era solo el nombre de una ciudad y un enlace dibujado.
+- **En producción:** se publicó una historia que era solo el nombre de una ciudad y un enlace dibujado.
   Ahora toda historia lleva un mensaje y ningún control falso.
 
 #### `ph-jefe-copy` ⭐
 - **Valor:** captions que suenan a persona, verificados contando en vez de opinando.
 - **Sin él:** tandas enteras que «se ven bien» hasta que alguien nota que las escribió una máquina.
-- **En Avisia:** el dueño rechazó una tanda porque se notaba la IA. Al contar: 14 de 21 captions tenían
+- **En producción:** el dueño rechazó una tanda porque se notaba la IA. Al contar: 14 de 21 captions tenían
   raya larga y 12 de 21 tenían el gancho cortado.
 
 ---
@@ -412,5 +412,5 @@ instalación completos en el [README principal](../README.md#instalación-paso-a
 - **El validador revierte seguido.** Tus comandos de validación no reflejan lo que de verdad rompe tu
   proyecto, o el tope de items es muy alto para tu base de código.
 
-> Cada una de estas señales es una lección que costó caro en Avisia. Están desarrolladas, con el caso
+> Cada una de estas señales es una lección que costó caro en producción. Están desarrolladas, con el caso
 > que las originó, en [LECCIONES.md](../LECCIONES.md).

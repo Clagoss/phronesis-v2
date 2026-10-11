@@ -4,7 +4,7 @@
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-**Versión 2.3.0** (2026-10-09) · [qué cambió en cada versión](CHANGELOG.md)
+**Versión 2.3.1** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
@@ -33,11 +33,11 @@ todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido 
 
 ## De dónde viene
 
-Phronesis v2 no se diseñó en una pizarra. Nació operando **[Avisia](https://avisia.cl)**, un
+Phronesis v2 no se diseñó en una pizarra. Nació operando un
 marketplace de avisos clasificados en Chile, con usuarios reales, pagos reales y despliegues diarios.
-Durante meses, estos agentes inspeccionaron, arreglaron y desplegaron Avisia todos los días, y cada
-error que cometieron quedó escrito en sus instrucciones. Avisia es el banco de pruebas de Phronesis:
-cada regla de este repo se pagó ahí primero. En Avisia:
+Durante meses, estos agentes lo inspeccionaron, lo arreglaron y lo desplegaron todos los días, y cada
+error que cometieron quedó escrito en sus instrucciones. Ese marketplace es el banco de pruebas de
+Phronesis: cada regla de este repo se pagó ahí primero. Allá:
 
 | | |
 |---|---|
@@ -49,11 +49,11 @@ cada regla de este repo se pagó ahí primero. En Avisia:
 
 Ese último número importa: un agente no aprende solo, lo único que persiste es su archivo de
 instrucciones. **Cada reescritura es un error real que quedó escrito.** Al pasar a Phronesis v2 se
-quitaron el stack, las rutas y el dominio de Avisia, y quedó el criterio: funciona en cualquier
+quitaron el stack, las rutas y el dominio del proyecto de origen, y quedó el criterio: funciona en cualquier
 proyecto que tenga código, un repo y alguien que decida.
 
 **[Cómo se mueve el equipo de agentes →](organigrama/)** — quién le pasa trabajo a quién, qué
-valor da cada uno y cómo se configura. Incluye el organigrama con la historia de cada agente en Avisia.
+valor da cada uno y cómo se configura. Incluye el organigrama con la historia de cada agente en producción.
 
 ---
 
@@ -398,7 +398,7 @@ phronesis-v2/
   solos, después de que la versión anterior dejara un hallazgo en dos meses.
 - **Protocolo de deploy en 12 fases** (F0–F11), con un inventario que falla si algo queda fuera del
   merge, el riesgo del lote calculado por rutas sensibles, una puerta que espera tu «mergea» y una
-  nota de release al final. Viene del deploy management de Avisia, deploys #18 a #48.
+  nota de release al final. Viene del deploy management del proyecto de origen, tras treinta despliegues.
 - **Plantillas de GitHub Actions** para correr todo en la nube.
 - **12 lecciones nuevas** en [LECCIONES.md](LECCIONES.md).
 

@@ -345,5 +345,5 @@ Las plantillas de los tres JSON están en `plantillas/` de Phronesis v2.
 
 ---
 
-*Generalizado del deploy management de [Avisia](https://avisia.cl), deploys #18 a #48. Protocolo v2,
+*Generalizado del deploy management de un marketplace en producción, tras treinta despliegues. Protocolo v2,
 aprobado el 2026-10-01.*
