@@ -16,6 +16,23 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.4.0 — 2026-10-11
+
+**El inspector de accesibilidad mide contra WCAG 2.2, no 2.1.** WCAG 2.2 es recomendación del W3C
+desde octubre de 2023, y `ph-inspector-a11y` seguía con la vara anterior. Lo detectó la evaluación de
+un agente que revise la vara de los demás contra sus fuentes oficiales.
+
+- **Sección nueva «Tu vara»**: estándar, versión, fecha de verificación y fuentes. Si `PHRONESIS.md`
+  declara otra norma, manda esa.
+- **Los criterios que 2.2 agregó en A y AA**: 2.4.11 foco no tapado por un header fijo o un banner,
+  2.5.7 alternativa al arrastre, 2.5.8 objetivos de 24×24 px, 3.2.6 ayuda consistente, 3.3.7 no
+  pedir dos veces lo mismo y 3.3.8 entrar sin prueba cognitiva (toca autenticación: nunca
+  auto-resoluble).
+- **4.1.1 (Parsing) ya no existe** en 2.2: deja de reportarse.
+- **Corrección:** el mínimo de un objetivo táctil en AA es 24×24 px, no ~44×44 (eso es AAA y queda
+  como recomendación).
+- README y organigrama al día.
+
 ## 2.3.1 — 2026-10-11
 
 - El repo deja de nombrar al proyecto donde nacieron los agentes. Las cifras, los casos y la historia

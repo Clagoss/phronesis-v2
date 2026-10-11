@@ -1,10 +1,10 @@
-# Phronesis v2.3
+# Phronesis v2.4
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-**Versión 2.3.1** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
+**Versión 2.4.0** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
@@ -111,7 +111,7 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 | `ph-inspector-seo` | Metadata por ruta, datos estructurados, canonical, coherencia entre sitemap y `noindex`, URLs inválidas que devuelven 500 en vez de 404, páginas vacías indexadas. Su vara es la documentación de Google, no los blogs. | martes |
 | `ph-inspector-codigo` | Adherencia a tu arquitectura, duplicación recién nacida (el momento más barato de unificar), código muerto, tipos, restricciones del framework que el typecheck no ve. | miércoles |
 | `ph-inspector-ux` | Fricción en tu flujo principal, estados vacío/carga/error, deep-links que pierden el destino tras el login, confianza, microcopy. Usa las heurísticas de Nielsen, el recorrido cognitivo y la severidad de NN/g. **Nunca decide producto**: eso te lo deja a ti. | jueves |
-| `ph-inspector-a11y` | WCAG 2.1 AA: contraste (también el del anillo de foco), foco que se pierde al cerrar un modal, controles solo de mouse, estados que solo se ven y no se anuncian. | viernes |
+| `ph-inspector-a11y` | WCAG 2.2 AA: contraste (también el del anillo de foco), foco que se pierde al cerrar un modal, controles solo de mouse, estados que solo se ven y no se anuncian. | viernes |
 | `ph-inspector-performance` | Core Web Vitals, bundle, imágenes, consultas N+1, la misma consulta repetida en un request, límites de CPU del runtime. | sábado |
 | `ph-inspector-negocio` | Mira lo que la gente hizo, no el código. Trabaja la serie de métricas, prohíbe porcentajes sobre menos de 30 casos y entrega **un** hallazgo, no un tablero. | durante una ventana de foco |
 | `ph-validador-qa` | Typecheck, chequeos, build y humo real. Tiene veto: arregla lo obvio y revierte lo demás. | cierre de cada ciclo |
