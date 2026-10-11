@@ -1,10 +1,10 @@
-# Phronesis v2.4
+# Phronesis v2.5
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-**Versión 2.4.0** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
+**Versión 2.5.0** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 

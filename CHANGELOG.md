@@ -16,6 +16,25 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.5.0 — 2026-10-11
+
+**Los inspectores declaran su vara, y cuatro se ponen al día con su estándar.** Primera revisión de
+varas contra fuentes oficiales, la que propone el agente «sabio» del SPEC de la v3 (probado primero en
+el proyecto de origen).
+
+- **`ph-inspector-seguridad`: OWASP Top 10:2025.** Busca controles que **fallan abiertos** (A10:2025
+  nueva, CWE-636): límites de frecuencia, anti-bot, sesión o dueño del recurso que dejan pasar si la
+  base o la red fallan; `catch` vacíos; errores que filtran detalles. Cadena de suministro (A03) más
+  allá de `npm audit`. SSRF en A01.
+- **`ph-inspector-seo`:** no propone los datos estructurados que Google retiró de la Búsqueda en junio
+  de 2025 (Vehicle Listing, Estimated Salary y otros cinco). Product/Offer donde no se vende en el
+  sitio se mide como «fragmentos de producto».
+- **`ph-inspector-performance`:** califica contra los umbrales del percentil 75 (LCP ≤ 2,5 s · INP ≤
+  200 ms · CLS ≤ 0,1), no reporta FID, y mide el trabajo por request contra el límite de CPU del
+  runtime si lo tiene.
+- **`ph-inspector-ux`:** el impacto de mercado entra en la severidad.
+- Cada uno abre con una sección «Tu vara»: estándar, versión, fecha de verificación y fuente.
+
 ## 2.4.0 — 2026-10-11
 
 **El inspector de accesibilidad mide contra WCAG 2.2, no 2.1.** WCAG 2.2 es recomendación del W3C

@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Agentes de Claude Code para la mejora continua de un producto real: inspeccionan, resuelven, validan y aprenden. Destilados de meses operando un marketplace en producción.",
-    "version": "2.4.0"
+    "version": "2.5.0"
   },
   "plugins": [
     {
