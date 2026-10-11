@@ -16,6 +16,22 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.6.0 — 2026-10-11
+
+**El inspector de seguridad mira también a los agentes: las instrucciones de afuera.** Lo pidió el
+dueño del proyecto de origen: revisar si un agente, al leer un sitio, recibió una orden que lo hizo
+hacer algo que nadie pidió, y prevenirlo.
+
+- **`ph-inspector-seguridad`: OWASP Top 10 for LLM Applications 2025** como segunda vara (LLM01
+  inyección indirecta, LLM06 agencia excesiva, LLM02 filtración de información sensible).
+- Revisa que los agentes que leen contenido de terceros tengan solo las herramientas que su tarea
+  necesita, con una barrera mecánica; que ningún texto de afuera llegue a un comando de shell; y el
+  camino de la inyección guardada en archivos.
+- Si hay transcripciones, busca lecturas con marcas de instrucciones y lo que vino después en el mismo
+  turno, sin copiar nunca la orden.
+- Trata como hipótesis el reporte de inyección de un agente: el primero del proyecto de origen era un
+  aviso del propio harness.
+
 ## 2.5.0 — 2026-10-11
 
 **Los inspectores declaran su vara, y cuatro se ponen al día con su estándar.** Primera revisión de
