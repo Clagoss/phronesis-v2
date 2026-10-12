@@ -141,8 +141,14 @@ Agrega las propias de tu proyecto (temas legales, categorías sensibles, datos d
 - **Plan de outreach** (fuente de verdad): ej. `docs/ops/outreach/PLAN.md`
 - **Lista maestra de prospectos:** ej. `docs/ops/outreach/prospectos.csv`
 - **Registro de envíos:** ej. `docs/ops/outreach/envios.jsonl`
+- **Bandeja de salida** (los borradores del copywriter, uno por prospecto): ej. `docs/ops/outreach/outbox/`
+- **Puerta de ingesta:** `scripts/ops/ingesta-prospectos.mjs`, con su configuración en
+  `docs/ops/outreach/ingesta.json`. Es la única que agrega filas a la lista: el prospector devuelve
+  los candidatos en JSON y la rutina los pasa por la puerta.
+- **Guardia:** `scripts/ops/guardia-agentes.mjs` como hook (README, «Agentes que leen afuera»). Si
+  estas rutas no son las de por defecto, ajústalas en `.claude/phronesis/guardia.json`.
 - **Rubros activos y fechas de cambio de oferta:**
-- **Tope diario de prospectos nuevos:**
+- **Tope diario de prospectos nuevos:** (el mismo `tope_diario` de `ingesta.json`, que es el que la puerta hace cumplir)
 - **Voz y firma:** (quién firma, con qué rol, en qué tono)
 - **Oferta vigente:** (lo único que el copywriter puede prometer)
 
@@ -160,4 +166,5 @@ Agrega las propias de tu proyecto (temas legales, categorías sensibles, datos d
 > Lo del deploy está en la §7. Acá van las rutinas y el correo.
 
 - **Inventario de rutinas:** ej. `docs/ops/rutinas.json` (ver `plantillas/rutinas.json`)
-- **Configuración de correo:** ej. `docs/ops/correo/<proyecto>.json` (ver `plantillas/correo.json`)
+- **Configuración de correo:** ej. `docs/ops/correo/<proyecto>.json` (ver `plantillas/correo.json`).
+  El triage lee la casilla con las herramientas de lectura del conector de correo, sin Bash.

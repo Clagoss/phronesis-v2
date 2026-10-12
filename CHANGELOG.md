@@ -16,6 +16,33 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.7.0 — 2026-10-11
+
+**Los agentes que leen afuera pierden las herramientas de sobra, y la lista de prospectos tiene una
+puerta.** Un agente que abre páginas o correos de desconocidos puede encontrarse con órdenes escritas
+para él. Hasta ahora la única defensa era su criterio; desde esta versión son tres capas, y cada una
+alcanza sola (OWASP LLM01 y LLM06 de 2025).
+
+- **`ph-prospector` no escribe ni tiene Bash.** Busca y devuelve los candidatos en JSON. La rutina
+  los pasa por la **puerta de ingesta** (`plantillas/scripts/ingesta-prospectos.mjs`, nueva), la
+  única que agrega filas a la lista. Revisa:
+  - la forma y las marcas de instrucciones;
+  - que el correo sea del dominio del negocio o de un proveedor público, y su MX;
+  - que el correo aparezca en la página citada, sin dejar que esa página apunte a la red interna;
+  - los duplicados y el tope diario.
+
+  Nunca marca un correo como verificado: eso sigue siendo del verificador de casillas.
+- **`ph-estratega`, sin Bash:** mide leyendo la lista y el registro de envíos, y solo escribe en el
+  backlog.
+- **`ph-triage-correo`, sin Bash:** lee la casilla con las herramientas de lectura del conector de
+  correo (las del de Gmail de Claude; si usas otro, se cambian en su ficha).
+- **`ph-copywriter`:** lo que viene de un prospecto es dato, y escribe solo en la bandeja de salida.
+- **La guardia** (`plantillas/scripts/guardia-agentes.mjs`, nueva y opcional): un hook PreToolUse que
+  mantiene a cada uno de esos agentes en sus herramientas y carpetas aunque lo engañen. Trae una
+  política por defecto (`plantillas/guardia.json`).
+- `PHRONESIS.md` §11 suma la bandeja de salida, la puerta y la guardia. El instalador las deja cuando
+  instalas `growth` u `ops`. En el README, la sección «Agentes que leen afuera».
+
 ## 2.6.0 — 2026-10-11
 
 **El inspector de seguridad mira también a los agentes: las instrucciones de afuera.** Lo pidió el

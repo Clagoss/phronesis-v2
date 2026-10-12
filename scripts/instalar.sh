@@ -57,6 +57,18 @@ if printf '%s\n' "${PLUGINS[@]}" | grep -qx ops; then
   echo "  → ajusta docs/ops/deploy.json (ramas, URL de salud, rutas sensibles) antes del primer /ph-deploy"
 fi
 
+# Los agentes que leen contenido de afuera (growth lee la web; el triage de ops, el correo) vienen con
+# la puerta de ingesta de prospectos y la guardia. La guardia es un hook de Claude Code: se activa a
+# mano en .claude/settings.json, porque el instalador no toca tus permisos.
+if printf '%s\n' "${PLUGINS[@]}" | grep -qx growth; then
+  copiar_si_falta "$AQUI/plantillas/scripts/ingesta-prospectos.mjs" "$DESTINO/scripts/ops/ingesta-prospectos.mjs"
+  copiar_si_falta "$AQUI/plantillas/ingesta.json"                    "$DESTINO/docs/ops/outreach/ingesta.json"
+fi
+if printf '%s\n' "${PLUGINS[@]}" | grep -qxE 'growth|ops'; then
+  copiar_si_falta "$AQUI/plantillas/scripts/guardia-agentes.mjs" "$DESTINO/scripts/ops/guardia-agentes.mjs"
+  echo "  → activa la guardia: agrega a .claude/settings.json el hook PreToolUse de scripts/ops/guardia-agentes.mjs (README, «Agentes que leen afuera»)"
+fi
+
 if [ ! -e "$DESTINO/PHRONESIS.md" ]; then
   cp "$AQUI/plantillas/PHRONESIS.md" "$DESTINO/PHRONESIS.md"
   echo "  ✓ PHRONESIS.md (plantilla — complétala, o corre /ph-iniciar para que la llene leyendo el repo)"

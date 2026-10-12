@@ -1,0 +1,37 @@
+{
+  "_que_es": "Configuración de la puerta de ingesta de prospectos (scripts/ops/ingesta-prospectos.mjs). Columnas: cada columna de la lista y de dónde sale: un campo del candidato, $id (correlativo), $mx (lo que dijo el MX), $fecha (hoy) o =texto (un valor fijo).",
+  "lista": "docs/ops/outreach/prospectos.csv",
+  "delimitador": ";",
+  "prefijo_id": "p",
+  "tope_diario": 5,
+  "verificar_en_fuente": true,
+  "columnas": {
+    "id": "$id",
+    "nombre": "nombre",
+    "rubro": "rubro",
+    "zona": "zona",
+    "sitio": "sitio",
+    "correo": "correo",
+    "fuente": "fuente",
+    "descripcion": "descripcion",
+    "email_verificado": "$mx",
+    "estado": "=nuevo",
+    "opt_out": "=no",
+    "agregado": "$fecha"
+  },
+  "proveedores_publicos": [
+    "gmail.com",
+    "googlemail.com",
+    "outlook.com",
+    "hotmail.com",
+    "live.com",
+    "yahoo.com",
+    "icloud.com",
+    "me.com",
+    "proton.me",
+    "protonmail.com",
+    "gmx.com",
+    "aol.com",
+    "zoho.com"
+  ]
+}

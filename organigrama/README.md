@@ -179,7 +179,7 @@ Convierte «que no quede nada fuera» de algo que uno recuerda en un chequeo que
 ```mermaid
 flowchart LR
     subgraph Outreach
-        PR["prospector<br/>pocos, verificados"] --> CO["copywriter<br/>en tu voz"] --> ENV(["envío"]) --> ES["estratega<br/>¿se cumplió un umbral?"]
+        PR["prospector<br/>pocos, devuelve JSON"] --> PU["puerta de ingesta<br/>revisa y escribe la lista"] --> CO["copywriter<br/>en tu voz"] --> ENV(["envío"]) --> ES["estratega<br/>¿se cumplió un umbral?"]
         ES -->|sí| BK["backlog"]
     end
     subgraph Redes
@@ -201,6 +201,7 @@ todo quede en `git`, que se pueda revisar y que se pueda revertir.
 | `docs/mejora/BACKLOG.md` | inspectores, estratega, sintetizador, resolutor (estados), validador (auditoría) | resolutor, curador, inspectores (para no duplicar) |
 | `docs/mejora/LECCIONES.md` | curador; cualquier agente que vea un patrón | **todos**, al arrancar |
 | `docs/DEUDAS.md` | tú, gestor de deploy, resolutor (al pagar una) | resolutor, curador |
+| la lista de prospectos | **solo la puerta de ingesta**, nunca un agente | prospector, copywriter, estratega |
 | registro de despliegues | gestor y verificador de deploy | gestor (paso 0), curador |
 | Issues `necesita-decision` | resolutor | tú; el ciclo diario, para ver si ya decidiste |
 | el PR hacia producción | el workflow del ciclo diario | tú |
@@ -319,7 +320,8 @@ Phronesis v2) y qué tan importante es.
 ### Plugin `growth`
 
 #### `ph-prospector` ⭐
-- **Valor:** pocos prospectos, verificados y de fuentes públicas.
+- **Valor:** pocos prospectos, verificados y de fuentes públicas. No escribe la lista ni tiene Bash:
+  devuelve los candidatos, y entran solo si pasan la puerta de ingesta.
 - **Sin él:** listas compradas, correos inventados y un dominio quemado.
 - **En producción:** marcar una casilla como válida solo porque el dominio recibe correo hizo rebotar 3 de
   15 envíos y pausó el canal. Desde entonces, eso solo lo marca el verificador de casillas.
@@ -381,9 +383,9 @@ hace falta. Si una sección está vacía, el agente **se abstiene**: no inventa.
 | `ph-sintetizador-usabilidad` | 1, 4, 8 | un archivo de notas | a pedido, `/ph-usabilidad` |
 | `ph-gestor-deploy` | 5, 6, 7 · Ramas y despliegue | `docs/ops/deploy.json`, `fuera-del-lote.json`, `protocolo-revision.json` y el script de inventario (el instalador los deja) | cada deploy, con `/ph-deploy` |
 | `ph-verificador-deploy` | 7 | **un endpoint de salud que exponga el commit** | fase F8, lo invoca el gestor |
-| `ph-triage-correo` | 13 | un conector de correo en Claude Code y `correo.json` | cada noche, tarea programada |
+| `ph-triage-correo` | 13 | un conector de correo en Claude Code (lo lee con sus herramientas de lectura, sin Bash) y `correo.json` | cada noche, tarea programada |
 | `ph-vigilante-rutinas` | 13 | `rutinas.json` con el entregable de cada rutina | cada día |
-| `ph-prospector` | 11 · Outreach | la lista maestra y un verificador de casillas | cada corrida de outreach |
+| `ph-prospector` | 11 · Outreach | la puerta de ingesta (el instalador la deja), la lista maestra y un verificador de casillas | cada corrida de outreach |
 | `ph-copywriter` | 4, 11 | el plan con la voz, la firma y la oferta vigente | cada corrida de outreach |
 | `ph-estratega` | 11 | la lista maestra y el registro de envíos | al cierre de cada corrida |
 | `ph-director-arte` | 12 · Contenido | el sistema de plantillas y los tokens | cada tanda |

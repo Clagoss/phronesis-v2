@@ -1,0 +1,66 @@
+{
+  "_que_es": "Política de la guardia de agentes (scripts/ops/guardia-agentes.mjs). Cópiala a .claude/phronesis/guardia.json solo si tus rutas no son las de por defecto: cada agente que nombres reemplaza su política por defecto. leer y escribir: rutas relativas a la raíz; las que terminan en / son carpetas.",
+  "agentes": {
+    "ph-prospector": {
+      "herramientas": [
+        "Read",
+        "Grep",
+        "Glob",
+        "WebSearch",
+        "WebFetch"
+      ],
+      "leer": [
+        "PHRONESIS.md",
+        "docs/ops/outreach/"
+      ],
+      "escribir": []
+    },
+    "ph-estratega": {
+      "herramientas": [
+        "Read",
+        "Grep",
+        "Glob",
+        "WebSearch",
+        "WebFetch",
+        "Edit"
+      ],
+      "leer": [
+        "PHRONESIS.md",
+        "docs/ops/outreach/",
+        "docs/mejora/"
+      ],
+      "escribir": [
+        "docs/mejora/BACKLOG.md"
+      ]
+    },
+    "ph-copywriter": {
+      "herramientas": [
+        "Read",
+        "Grep",
+        "Glob",
+        "Write",
+        "Edit"
+      ],
+      "leer": [
+        "PHRONESIS.md",
+        "docs/ops/outreach/"
+      ],
+      "escribir": [
+        "docs/ops/outreach/outbox/"
+      ]
+    },
+    "ph-triage-correo": {
+      "herramientas": [
+        "Read",
+        "Grep",
+        "Glob"
+      ],
+      "mcp_lectura": "^mcp__.+__(search_threads|get_thread|get_message|list_labels)$",
+      "leer": [
+        "PHRONESIS.md",
+        "docs/ops/correo/"
+      ],
+      "escribir": []
+    }
+  }
+}

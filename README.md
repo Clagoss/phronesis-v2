@@ -1,10 +1,10 @@
-# Phronesis v2.6
+# Phronesis v2.7
 
 **Agentes de Claude Code para la mejora continua de un producto real.** Cada día inspeccionan un
 área de tu proyecto, arreglan lo que se puede arreglar sin ti, validan que nada se rompa y te dejan
 todo en un solo PR para que decidas. Una vez por semana consolidan lo aprendido para no repetir errores.
 
-**Versión 2.6.0** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
+**Versión 2.7.0** (2026-10-11) · [qué cambió en cada versión](CHANGELOG.md)
 
 ![El ciclo diario de Phronesis v2](organigrama/ciclo.png)
 
@@ -124,16 +124,16 @@ Diecinueve agentes en cuatro plugins. Instala solo los que necesites; `mejora` e
 |---|---|---|
 | `ph-gestor-deploy` | Ejecuta el **protocolo de deploy en 12 fases**: un inventario que falla si algo queda fuera del merge, pre-flight, riesgo y punto de retorno fijados antes, revisión de casos hermanos, verificación visual, una **puerta que espera tu «mergea»**, una última mirada a quién más está trabajando antes de mergear, verificación en producción, observación, registro y nota de release. | cada deploy, con `/ph-deploy` |
 | `ph-verificador-deploy` | El subagente de la fase de verificación: prueba que la versión correcta está viva comparando el commit servido, distingue tu falla de la del proveedor y verifica en vivo un cambio concreto. No cree en el verde del CI. | fase F8 de cada deploy |
-| `ph-triage-correo` | Dice qué correo exige acción, de quién y para cuándo; calcula plazos legales; detecta lo que debió llegar y no llegó, y los filtros que esconden correos. Solo lectura. | cada noche |
+| `ph-triage-correo` | Dice qué correo exige acción, de quién y para cuándo; calcula plazos legales; detecta lo que debió llegar y no llegó, y los filtros que esconden correos. Solo lectura, con el conector de correo y sin Bash. | cada noche |
 | `ph-vigilante-rutinas` | Distingue «no arrancó», «arrancó y no terminó» y «corrió sin entregar nada». Vigila el entregable, no solo el latido. | cada día |
 
 ### Plugin `growth` — outreach B2B
 
 | Agente | Qué hace | Cuándo corre |
 |---|---|---|
-| `ph-prospector` | Suma pocos prospectos de calidad desde fuentes públicas, verifica el dominio y respeta un tope duro. Nunca inventa un dato de contacto. | cada corrida |
+| `ph-prospector` | Busca pocos prospectos de calidad en fuentes públicas y los **devuelve en JSON**: la puerta de ingesta los revisa y es la única que escribe la lista. Sin Bash. Nunca inventa un dato de contacto. | cada corrida |
 | `ph-copywriter` | Escribe en tu voz, de igual a igual. Regla de oro: **nunca le describe su negocio al destinatario**. Checklist anti-spam y segundo toque solo a quien no respondió. | cada corrida |
-| `ph-estratega` | Mide el canal por rubro contra umbrales que disparan solos (rebote en ventana móvil, 20 contactos sin respuesta) y escribe el hallazgo en el backlog. Sin cuota. | cierre de cada corrida |
+| `ph-estratega` | Mide el canal por rubro contra umbrales que disparan solos (rebote en ventana móvil, 20 contactos sin respuesta) y escribe el hallazgo en el backlog. Sin cuota y sin Bash. | cierre de cada corrida |
 
 ### Plugin `contenido` — redes sociales
 
@@ -290,11 +290,16 @@ Corre los domingos, que es el día que el ciclo descansa: así nadie más escrib
   nada.
 - **`ops` — correo.** Necesitas un conector de correo en Claude Code (por ejemplo el de Gmail).
   Copia [`plantillas/correo.json`](plantillas/correo.json) a `docs/ops/correo/<proyecto>.json` y
-  ajusta casillas, categorías y plazos. Prográmalo como tarea diaria.
+  ajusta casillas, categorías y plazos. Prográmalo como tarea diaria. El triage lee con las
+  herramientas de lectura del conector, sin Bash: su ficha trae las del conector de Gmail de Claude;
+  si usas otro, cámbialas ahí (y en la guardia).
 - **`ops` — rutinas.** Copia [`plantillas/rutinas.json`](plantillas/rutinas.json) y declara cada
   automatización con su frecuencia y **su entregable**.
 - **`growth` y `contenido`.** Llena las secciones *Outreach* y *Contenido* de `PHRONESIS.md` con tu
-  plan, tu voz, tu oferta y tu sistema visual. Sin eso, los agentes se abstienen.
+  plan, tu voz, tu oferta y tu sistema visual. Sin eso, los agentes se abstienen. El instalador deja
+  la puerta de ingesta de prospectos (`scripts/ops/ingesta-prospectos.mjs`, con su configuración en
+  `docs/ops/outreach/ingesta.json`) y la guardia: actívala, ver
+  [Agentes que leen afuera](#agentes-que-leen-afuera).
 
 ---
 
@@ -342,6 +347,33 @@ abre un PR.
   quedan en tu máquina. Los chequeos que las necesitan corren en local, antes de desplegar; la nube
   trabaja con lo que el repo ya tiene.
 
+### Agentes que leen afuera
+
+El prospector y el estratega abren páginas de desconocidos, y el triage lee correos. Cualquiera de
+esos textos puede traer órdenes escritas para el agente (inyección indirecta: OWASP LLM01:2025). Son
+tres capas, y cada una alcanza sola:
+
+1. **Sin herramientas de sobra** (OWASP LLM06:2025). Ninguno tiene Bash. El prospector no escribe:
+   devuelve los candidatos en JSON. El triage lee con las herramientas de lectura del conector de
+   correo.
+2. **La puerta de ingesta** (`scripts/ops/ingesta-prospectos.mjs`) es la única que agrega
+   prospectos a la lista. Revisa la forma, las marcas de instrucciones, que el correo sea del
+   dominio del negocio o de un proveedor público, el MX, que el correo aparezca en la página citada
+   (sin dejar que esa página apunte a tu red interna), los duplicados y el tope diario. La rutina
+   guarda el JSON del prospector en un archivo y corre la puerta; nunca pega ese texto en la línea
+   de comandos.
+3. **La guardia** (`scripts/ops/guardia-agentes.mjs`): un hook que mantiene a cada uno en sus
+   herramientas y carpetas aunque lo engañen. Actívala en `.claude/settings.json`:
+
+   ```json
+   "hooks": { "PreToolUse": [ { "matcher": "*", "hooks": [ { "type": "command",
+     "command": "node \"$CLAUDE_PROJECT_DIR/scripts/ops/guardia-agentes.mjs\"", "timeout": 10 } ] } ] }
+   ```
+
+   Trae una política por defecto con las rutas de `PHRONESIS.md`. Si las tuyas son otras, copia
+   [`plantillas/guardia.json`](plantillas/guardia.json) a `.claude/phronesis/guardia.json` y
+   ajústalas.
+
 ---
 
 ## Límites honestos
@@ -376,7 +408,9 @@ phronesis-v2/
 │   ├── BACKLOG.md · LECCIONES.md · DEUDAS.md
 │   ├── rutinas.json · correo.json
 │   ├── deploy.json · fuera-del-lote.json · protocolo-revision.json
+│   ├── guardia.json · ingesta.json   la política de la guardia y la configuración de la puerta
 │   ├── scripts/              inventario-deploy.mjs · orden-migraciones.mjs (F1 y F3 del protocolo de deploy)
+│   │                         guardia-agentes.mjs · ingesta-prospectos.mjs (los agentes que leen afuera, con sus pruebas)
 │   └── github/               ciclo-diario.yml · memoria-semanal.yml
 ├── scripts/instalar.sh       copia agentes y comandos a .claude/ de tu proyecto
 ├── organigrama/              cómo se mueve el equipo, el valor de cada agente y el organigrama
