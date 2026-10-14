@@ -16,6 +16,21 @@ marketplace y los cuatro plugins.
 
 ---
 
+## 2.8.0 — 2026-10-14
+
+**El merge a producción queda atado al commit que se revisó.** Entre la puerta (F6) y el merge
+(F7) pueden pasar minutos u horas, y las rutinas siguen empujando a integración. Hasta ahora, un
+commit que llegara en ese intervalo entraba a producción con el resto del lote sin que nadie lo
+hubiera revisado.
+
+- **`ph-gestor-deploy`, F7 paso 5:** el merge va fijado a la punta que pasó el pre-flight y la
+  revisión. Con GitHub: `gh pr merge <N> --merge --match-head-commit <SHA>`. Si la rama se movió, la
+  plataforma rechaza el merge y lo nuevo queda para el próximo deploy.
+- **La aserción de completitud** (ahora paso 6) se mide hasta esa punta: lo que llegó después del
+  merge es el próximo lote, no un fallo.
+- Viene de la versión 3.1 del protocolo en el proyecto de origen, donde un commit llegó a
+  integración cuatro minutos después de un merge.
+
 ## 2.7.0 — 2026-10-11
 
 **Los agentes que leen afuera pierden las herramientas de sobra, y la lista de prospectos tiene una

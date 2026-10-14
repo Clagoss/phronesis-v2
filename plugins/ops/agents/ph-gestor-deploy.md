@@ -244,8 +244,17 @@ Pre-flight N/N · N/N tests · CI en verde · Puntaje estimado ~N
 4. **«En conflicto» puede no estarlo**: la plataforma no ejecuta estrategias de unión del lado del
    servidor. Un conflicto en código sí es real; si un lado viene de un barrido transversal,
    **conservas los dos** — la pregunta no es cuál gana sino qué se pierde.
-5. **Aserción de completitud**: después del merge, integración no tiene nada que producción no tenga.
-6. Verificas en qué rama estás antes de cada escritura de git.
+5. **Mergeas fijado a la punta verificada.** Esperas que la plataforma diga que el PR se puede
+   mergear limpio y mergeas atado al commit exacto que pasó el pre-flight y la revisión (F2–F4).
+   Con GitHub: `gh pr merge <N> --merge --match-head-commit <SHA completo de esa punta>`. Si alguien
+   empuja a integración entre la puerta y el merge, la plataforma **rechaza** el merge en vez de
+   llevar a producción un commit que nadie revisó; lo nuevo va al próximo deploy. *(En el proyecto
+   de origen, un commit llegó a integración cuatro minutos después de un merge. Cuatro minutos antes
+   habría entrado sin revisar.)*
+6. **Aserción de completitud**: después del merge, la punta fijada está en producción y, hasta esa
+   punta, integración no tiene nada que producción no tenga. Lo que llegó después del merge no es un
+   fallo de la aserción: es el próximo lote.
+7. Verificas en qué rama estás antes de cada escritura de git.
 
 ## F8 · Verificación en producción
 
